@@ -11,6 +11,7 @@ const NAV_ITEMS = [
   { icon: '📋', label: 'Connect Board', id: 'connect' },
   { icon: '🗳️', label: 'Civic', id: 'civic' },
   { icon: '🪪', label: 'Join', id: 'join' },
+  { icon: '📰', label: 'Articles', id: 'blog' },
 ]
 
 const SUGGESTED = [
@@ -327,6 +328,11 @@ export default function Home() {
       icon: '🪪', title: 'Member Card', color: '#6B4226', id: 'join',
       desc: 'Get your verified Dharmic Member Card for just $1 CAD. Identity-verified, QR-scannable, valid for 1 year.',
       btn: 'Join for $1',
+    },
+    {
+      icon: '📰', title: 'Articles & Blog', color: '#553C9A', id: 'blog',
+      desc: 'News, insights and stories from the Canadian Hindu community. Heritage, culture, dharma and community events.',
+      btn: 'Read Articles',
     },
   ]
 
@@ -719,6 +725,92 @@ export default function Home() {
                 </a>
                 <p style={{ marginTop: 12, fontSize: '0.75rem', color: '#F5D99A', opacity: 0.8 }}>For Hindu, Sikh, Buddhist & Jain business owners.</p>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* BLOG */}
+        {activeSection === 'blog' && (
+          <div style={{ padding: '20px 0 40px' }}>
+            <div style={s.sectionTitle}>📰 Articles & Community News</div>
+            <div style={s.sectionDivider} />
+            <p style={s.sectionSub}>Stories, insights and updates from the Canadian Hindu community.</p>
+
+            {/* Category filters */}
+            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' as const, marginBottom: 28 }}>
+              {['All', 'Community', 'Dharma & Spirituality', 'Heritage & Culture', 'Youth', 'Announcements', 'Civic'].map((cat, i) => (
+                <button key={i} style={{
+                  padding: '6px 16px', borderRadius: 20,
+                  border: i === 0 ? 'none' : '1px solid var(--border)',
+                  background: i === 0 ? 'var(--saffron)' : 'var(--warm-white)',
+                  color: i === 0 ? '#fff' : 'var(--text-sub)',
+                  fontSize: '0.82rem', cursor: 'pointer', fontFamily: 'var(--font-body)',
+                }}>{cat}</button>
+              ))}
+            </div>
+
+            {/* Featured article */}
+            <div style={{
+              background: 'linear-gradient(135deg, #2C0E00, #5C2200)',
+              borderRadius: 20, padding: '36px', marginBottom: 24, color: '#FFF8E7',
+              position: 'relative' as const, overflow: 'hidden',
+            }}>
+              <div style={{ position: 'absolute' as const, top: -20, right: -20, fontSize: '8rem', opacity: 0.05, fontFamily: 'var(--font-devanagari)' }}>ॐ</div>
+              <div style={{ fontSize: '0.72rem', color: '#F5C842', letterSpacing: '2px', textTransform: 'uppercase' as const, marginBottom: 10 }}>📌 Featured · Announcements</div>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.6rem', marginBottom: 12, color: '#FFF8E7' }}>
+                Welcome to the New canadianhindu.ca
+              </h2>
+              <p style={{ color: '#F5D99A', lineHeight: 1.8, marginBottom: 20, maxWidth: 640, fontSize: '0.95rem' }}>
+                Canadian Hindu Volunteers is proud to launch Mitra 2.0 — a complete community platform for Hindus, Sikhs, Buddhists and Jains across Canada. This platform brings together Vedic AI wisdom, a verified business directory, Dharmic certification, civic engagement tools, and community connection — all in one place rooted in dharma.
+              </p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 16, fontSize: '0.8rem', color: '#F5D99A' }}>
+                <span>✍️ Canadian Hindu Volunteers</span>
+                <span>·</span>
+                <span>📅 June 2025</span>
+                <span>·</span>
+                <span>3 min read</span>
+              </div>
+            </div>
+
+            {/* Article grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 20, marginBottom: 30 }}>
+              {[
+                { cat: 'Dharma & Spirituality', title: 'What is Dharmic Certification and Why It Matters', excerpt: 'A new way for Hindu, Sikh, Buddhist and Jain businesses to build community trust and give back through every transaction.', date: 'May 2025', time: '4 min' },
+                { cat: 'Civic', title: 'Dharmic Voices in Canadian Democracy', excerpt: 'How the Hindu community can make its voice heard in federal, provincial and municipal elections across Canada.', date: 'April 2025', time: '5 min' },
+                { cat: 'Heritage & Culture', title: 'Preserving Vedic Traditions in Canada', excerpt: 'How Canadian Hindu families are keeping ancient traditions alive while raising the next generation in the West.', date: 'March 2025', time: '6 min' },
+                { cat: 'Youth', title: 'Hindu Identity and the Canadian-Born Generation', excerpt: 'Young Hindus born in Canada share their journey of connecting with their heritage while growing up in a multicultural society.', date: 'February 2025', time: '7 min' },
+                { cat: 'Community', title: 'Canadian Hindu Volunteers — Our Story', excerpt: 'How a small group of dedicated volunteers built a nationwide network serving the Hindu community across Canada.', date: 'January 2025', time: '5 min' },
+                { cat: 'Dharma & Spirituality', title: 'Mitra AI — Vedic Wisdom for the Modern Age', excerpt: 'Meet Mitra, your AI Vedic guide powered by the wisdom of 14 ancient scriptures — available 24/7 in English and Hindi.', date: 'December 2024', time: '3 min' },
+              ].map((article, i) => (
+                <div key={i} style={{
+                  background: 'var(--warm-white)', border: '1px solid var(--border)',
+                  borderRadius: 16, padding: '20px', cursor: 'pointer',
+                  boxShadow: '0 2px 10px rgba(92,34,0,0.06)',
+                  transition: 'all 0.2s',
+                }}
+                  onMouseOver={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-3px)'; (e.currentTarget as HTMLDivElement).style.boxShadow = '0 8px 20px rgba(92,34,0,0.12)' }}
+                  onMouseOut={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)'; (e.currentTarget as HTMLDivElement).style.boxShadow = '0 2px 10px rgba(92,34,0,0.06)' }}>
+                  <div style={{ fontSize: '0.7rem', color: 'var(--saffron)', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase' as const, marginBottom: 8 }}>{article.cat}</div>
+                  <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', color: 'var(--darkest)', marginBottom: 8, lineHeight: 1.4 }}>{article.title}</h3>
+                  <p style={{ fontSize: '0.83rem', color: 'var(--text-sub)', lineHeight: 1.65, marginBottom: 14 }}>{article.excerpt}</p>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.72rem', color: 'var(--text-sub)' }}>
+                    <span>📅 {article.date}</span>
+                    <span>⏱ {article.time} read</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Contribute CTA */}
+            <div style={{ background: 'var(--warm-white)', border: '1px solid var(--border)', borderRadius: 20, padding: '28px', textAlign: 'center' as const }}>
+              <div style={{ fontSize: '1.5rem', marginBottom: 10 }}>✍️</div>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', color: 'var(--darkest)', marginBottom: 8 }}>Have a Story to Share?</h3>
+              <p style={{ color: 'var(--text-sub)', fontSize: '0.88rem', maxWidth: 440, margin: '0 auto 18px', lineHeight: 1.7 }}>
+                We welcome articles from community members on dharma, heritage, civic engagement, youth, and Hindu life in Canada.
+              </p>
+              <a href="mailto:canadianhinduvolunteers@gmail.com?subject=Article Submission" style={{ ...s.featureBtn('#553C9A'), padding: '10px 24px', fontSize: '0.88rem' }}>
+                Submit an Article →
+              </a>
             </div>
           </div>
         )}
