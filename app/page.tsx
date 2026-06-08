@@ -13,19 +13,19 @@ const NAV_ITEMS = [
 ]
 
 const HERO_SLIDES = [
-  { url: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?w=1400&q=80', caption: 'Akshardham, New Delhi' },
-  { url: 'https://images.unsplash.com/photo-1590077428593-a55bb07c4665?w=1400&q=80', caption: 'Kedarnath, Uttarakhand' },
-  { url: 'https://images.unsplash.com/photo-1609766857718-1e11db1f0dc3?w=1400&q=80', caption: 'Harmandir Sahib, Amritsar' },
-  { url: 'https://images.unsplash.com/photo-1570458436416-b8fcccfe883f?w=1400&q=80', caption: 'Brihadeeswarar, Thanjavur' },
+  { url: 'https://images.unsplash.com/photo-1706790574525-d218c4c52b5c?w=1400&q=80', caption: 'Jagannath Temple, Puri' },
+  { url: 'https://images.unsplash.com/photo-1566300141301-ab0577dcba1c?w=1400&q=80', caption: 'Sacred Temple at Night' },
+  { url: 'https://images.unsplash.com/photo-1606298855672-3efb63017be8?w=1400&q=80', caption: 'Ancient Hindu Temple' },
+  { url: 'https://images.unsplash.com/photo-1565195161077-f5c5f61f9ea2?w=1400&q=80', caption: 'Vedic Temple Architecture' },
 ]
 
 const GALLERY = [
-  { url: 'https://images.unsplash.com/photo-1606298855672-3efb63017be8?w=800&q=80', title: 'Nataraja', sub: 'The Cosmic Dance' },
-  { url: 'https://images.unsplash.com/photo-1604422378831-ef3c7e1b4e9a?w=800&q=80', title: 'Deepam', sub: 'Light of Knowledge' },
-  { url: 'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=800&q=80', title: 'Padma', sub: 'Symbol of Purity' },
-  { url: 'https://images.unsplash.com/photo-1567591370429-3a8e87c4c8b3?w=800&q=80', title: 'Ganesha', sub: 'Remover of Obstacles' },
-  { url: 'https://images.unsplash.com/photo-1601662528567-526cd06f6582?w=800&q=80', title: 'Rangoli', sub: 'Festival of Light' },
-  { url: 'https://images.unsplash.com/photo-1585421514284-efb74c2b69ba?w=800&q=80', title: 'Bhagavad Gita', sub: 'Eternal Wisdom' },
+  { url: 'https://images.unsplash.com/photo-1573352763925-82bd5dfc31d1?w=800&q=80', title: 'Gopuram', sub: 'Temple Tower — Sacred Gateway' },
+  { url: 'https://images.unsplash.com/photo-1632962237468-0705d7e7b534?w=800&q=80', title: 'Konark', sub: 'Sun Temple — Stone Legacy' },
+  { url: 'https://images.unsplash.com/photo-1601815264039-67c8ba1a7f98?w=800&q=80', title: 'Mandir', sub: 'Place of Worship' },
+  { url: 'https://images.unsplash.com/photo-1715876722520-02ccc9248dab?w=800&q=80', title: 'Shikhara', sub: 'Temple Spire — Reaching the Divine' },
+  { url: 'https://images.unsplash.com/photo-1524443169398-9aa1ceab67d5?w=800&q=80', title: 'Gurudwara', sub: 'Sikh Place of Worship' },
+  { url: 'https://images.unsplash.com/photo-1600867161364-67e000733952?w=800&q=80', title: 'Devi', sub: 'Divine Feminine — Shakti' },
 ]
 
 const SUGGESTED = [
@@ -457,7 +457,7 @@ export default function Home() {
           {/* DHARMIC SPLIT — cinematic section */}
           <div style={{ position: 'relative', overflow: 'hidden' }}>
             <div style={{
-              background: `url(https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1400&q=80) center/cover fixed`,
+              background: `url(https://images.unsplash.com/photo-1677211352662-30e7775c7ce8?w=1400&q=80) center/cover fixed`,
               padding: '120px 24px',
             }}>
               <div style={{ position: 'absolute', inset: 0, background: 'rgba(14,4,0,0.82)' }} />
@@ -756,7 +756,7 @@ export default function Home() {
                 <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '3.5rem', color: 'var(--dark)', marginBottom: 12 }}>Articles & Community News</h1>
                 <p style={{ fontSize: '1.1rem', color: 'var(--text-sub)', fontStyle: 'italic' }}>Stories, insights and wisdom from the Canadian Hindu community</p>
               </div>
-              <div style={{ position: 'relative', background: `url(https://images.unsplash.com/photo-1590077428593-a55bb07c4665?w=1400&q=80) center/cover`, borderRadius: 12, padding: '72px 56px', marginBottom: 48, overflow: 'hidden' }}>
+              <div style={{ position: 'relative', background: `url(https://images.unsplash.com/photo-1566300141301-ab0577dcba1c?w=1400&q=80) center/cover`, borderRadius: 12, padding: '72px 56px', marginBottom: 48, overflow: 'hidden' }}>
                 <div style={{ position: 'absolute', inset: 0, background: 'rgba(14,4,0,0.78)', borderRadius: 12 }} />
                 <div style={{ position: 'relative', color: '#FAF3E0' }}>
                   <div style={{ fontSize: '0.72rem', color: '#F0C060', letterSpacing: '2.5px', textTransform: 'uppercase', marginBottom: 14 }}>📌 Featured · Announcements</div>
