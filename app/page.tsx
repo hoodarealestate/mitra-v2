@@ -556,16 +556,45 @@ export default function Home() {
                   <div style={{ marginTop: 16, fontSize: '0.9rem', color: '#D4A84A' }}>canadianhinduvolunteers@gmail.com</div>
                 </div>
                 {[
-                  { title: 'Platform', links: ['Mitra AI', 'Directory', 'Certify', 'Connect Board', 'Civic Connect'] },
-                  { title: 'Community', links: ['Join for $1', 'Dharmic Certification', 'Articles', 'Partner With Us'] },
-                  { title: 'Organization', links: ['canadianhindu.ca', 'About Us', 'Contact', 'Admin'] },
+                  { title: 'Platform', links: [
+                    { label: 'Mitra AI', action: () => setActive('ai') },
+                    { label: 'Directory', action: () => setActive('directory') },
+                    { label: 'Certify', action: () => setActive('certify') },
+                    { label: 'Connect Board', action: () => setActive('connect') },
+                    { label: 'Civic Connect', action: () => setActive('civic') },
+                  ]},
+                  { title: 'Community', links: [
+                    { label: 'Join for $1', href: ZEFFY_LINKS.memberVerification },
+                    { label: 'Dharmic Certification', href: ZEFFY_LINKS.dharmicCertification },
+                    { label: 'Articles', action: () => setActive('blog') },
+                    { label: 'My Member Card', href: '/member' },
+                    { label: 'Partner With Us', href: 'mailto:canadianhinduvolunteers@gmail.com?subject=Partner With Mitra' },
+                  ]},
+                  { title: 'Organization', links: [
+                    { label: 'canadianhindu.ca', href: 'https://www.canadianhindu.ca' },
+                    { label: 'Register', href: '/register' },
+                    { label: 'Log In', href: '/login' },
+                    { label: 'Contact Us', href: 'mailto:canadianhinduvolunteers@gmail.com' },
+                    { label: 'Admin', href: '/admin' },
+                  ]},
                 ].map((col, i) => (
                   <div key={i}>
-                    <div style={{ color: '#FFFFFF', fontSize: '0.85rem', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: 20, opacity: 1 }}>{col.title}</div>
-                    {col.links.map(link => (
-                      <div key={link} style={{ color: '#E8C87A', fontSize: '1rem', marginBottom: 12, cursor: 'pointer', transition: 'color 0.2s' }}
-                        onMouseOver={e => (e.currentTarget.style.color = '#FFFFFF')}
-                        onMouseOut={e => (e.currentTarget.style.color = '#E8C87A')}>{link}</div>
+                    <div style={{ color: '#FFFFFF', fontSize: '0.85rem', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: 20 }}>{col.title}</div>
+                    {col.links.map((link: any) => (
+                      link.href ? (
+                        <a key={link.label} href={link.href}
+                          target={link.href.startsWith('http') ? '_blank' : '_self'}
+                          rel="noopener noreferrer"
+                          style={{ display: 'block', color: '#E8C87A', fontSize: '1rem', marginBottom: 12, textDecoration: 'none', transition: 'color 0.2s' }}
+                          onMouseOver={e => (e.currentTarget.style.color = '#FFFFFF')}
+                          onMouseOut={e => (e.currentTarget.style.color = '#E8C87A')}>{link.label}</a>
+                      ) : (
+                        <div key={link.label}
+                          onClick={link.action}
+                          style={{ color: '#E8C87A', fontSize: '1rem', marginBottom: 12, cursor: 'pointer', transition: 'color 0.2s' }}
+                          onMouseOver={e => (e.currentTarget.style.color = '#FFFFFF')}
+                          onMouseOut={e => (e.currentTarget.style.color = '#E8C87A')}>{link.label}</div>
+                      )
                     ))}
                   </div>
                 ))}
