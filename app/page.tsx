@@ -177,36 +177,36 @@ export default function Home() {
           <nav style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
             {NAV_ITEMS.map(item => (
               <button key={item.id} onClick={() => setActive(item.id)} style={{
-                padding: '8px 16px', borderRadius: 0, border: 'none', cursor: 'pointer',
-                background: active === item.id ? 'rgba(212,86,10,0.75)' : 'transparent',
-                color: active === item.id ? '#FAF3E0' : '#F0C060',
-                fontSize: '0.92rem', fontFamily: 'var(--font-body)', letterSpacing: '0.5px',
-                borderBottom: active === item.id ? '2px solid #F0C060' : '2px solid transparent',
-                transition: 'all 0.2s', fontWeight: active === item.id ? 600 : 400,
+                padding: '10px 18px', borderRadius: 6, border: 'none', cursor: 'pointer',
+                background: active === item.id ? '#D4560A' : 'rgba(255,255,255,0.1)',
+                color: '#FFFFFF',
+                fontSize: '1rem', fontFamily: 'var(--font-body)', letterSpacing: '0.3px',
+                transition: 'all 0.2s', fontWeight: active === item.id ? 700 : 500,
+                textShadow: '0 1px 3px rgba(0,0,0,0.5)',
               }}
-                onMouseOver={e => { if (active !== item.id) { (e.currentTarget as any).style.color = '#FAF3E0'; (e.currentTarget as any).style.background = 'rgba(255,255,255,0.08)' }}}
-                onMouseOut={e => { if (active !== item.id) { (e.currentTarget as any).style.color = '#F0C060'; (e.currentTarget as any).style.background = 'transparent' }}}>
+                onMouseOver={e => { if (active !== item.id) { (e.currentTarget as any).style.background = 'rgba(255,255,255,0.2)' }}}
+                onMouseOut={e => { if (active !== item.id) { (e.currentTarget as any).style.background = 'rgba(255,255,255,0.1)' }}}>
                 {item.label}
               </button>
             ))}
             <div style={{ width: 1, height: 28, background: 'rgba(240,192,96,0.3)', margin: '0 8px' }} />
             {(['en','hi'] as const).map(l => (
               <button key={l} onClick={() => setLang(l)} style={{
-                padding: '6px 12px', border: 'none', cursor: 'pointer',
-                background: lang === l ? 'rgba(240,192,96,0.2)' : 'transparent',
-                color: lang === l ? '#F0C060' : 'rgba(240,192,96,0.5)',
-                fontSize: '0.82rem', fontWeight: 'bold', borderRadius: 4,
+                padding: '7px 14px', border: '1px solid rgba(255,255,255,0.3)', cursor: 'pointer',
+                background: lang === l ? 'rgba(255,255,255,0.25)' : 'transparent',
+                color: '#FFFFFF', fontSize: '0.9rem', fontWeight: 'bold', borderRadius: 6,
               }}>{l === 'en' ? 'EN' : 'हि'}</button>
             ))}
             <div style={{ width: 1, height: 28, background: 'rgba(240,192,96,0.3)', margin: '0 8px' }} />
             {/* Login / Register */}
             <a href="/login" style={{
-              padding: '7px 16px', borderRadius: 4, border: '1px solid rgba(240,192,96,0.5)',
-              color: '#F0C060', fontSize: '0.88rem', fontFamily: 'var(--font-body)',
-              textDecoration: 'none', transition: 'all 0.2s', letterSpacing: '0.3px',
+              padding: '9px 20px', borderRadius: 6, border: '2px solid rgba(255,255,255,0.7)',
+              color: '#FFFFFF', fontSize: '1rem', fontFamily: 'var(--font-body)',
+              textDecoration: 'none', transition: 'all 0.2s', fontWeight: 600,
+              background: 'rgba(255,255,255,0.1)',
             }}
-              onMouseOver={e => { (e.currentTarget as any).style.background = 'rgba(240,192,96,0.1)'; (e.currentTarget as any).style.borderColor = '#F0C060' }}
-              onMouseOut={e => { (e.currentTarget as any).style.background = 'transparent'; (e.currentTarget as any).style.borderColor = 'rgba(240,192,96,0.5)' }}>
+              onMouseOver={e => { (e.currentTarget as any).style.background = 'rgba(255,255,255,0.22)' }}
+              onMouseOut={e => { (e.currentTarget as any).style.background = 'rgba(255,255,255,0.1)' }}>
               Log In
             </a>
             <a href="/register" style={{
@@ -549,11 +549,11 @@ export default function Home() {
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
                     <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'linear-gradient(135deg, #F0C060, #D4560A)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, fontFamily: 'var(--font-dev)', color: '#1C0A00' }}>ॐ</div>
-                    <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', color: '#FAF3E0' }}>Mitra · मित्र</div>
+                    <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', color: '#FFFFFF' }}>Mitra · मित्र</div>
                   </div>
                   <div style={{ fontFamily: 'var(--font-dev)', fontSize: '1rem', color: '#F0C060', marginBottom: 12 }}>धर्मो रक्षति रक्षितः</div>
-                  <p style={{ fontSize: '0.88rem', color: 'rgba(201,160,96,0.6)', lineHeight: 1.8, maxWidth: 320 }}>A Canadian Hindu Volunteers initiative serving the Hindu, Sikh, Buddhist & Jain community across Canada.</p>
-                  <div style={{ marginTop: 16, fontSize: '0.82rem', color: 'rgba(201,160,96,0.4)' }}>canadianhinduvolunteers@gmail.com</div>
+                  <p style={{ fontSize: '0.95rem', color: '#E8C87A', lineHeight: 1.8, maxWidth: 320 }}>A Canadian Hindu Volunteers initiative serving the Hindu, Sikh, Buddhist & Jain community across Canada.</p>
+                  <div style={{ marginTop: 16, fontSize: '0.9rem', color: '#D4A84A' }}>canadianhinduvolunteers@gmail.com</div>
                 </div>
                 {[
                   { title: 'Platform', links: ['Mitra AI', 'Directory', 'Certify', 'Connect Board', 'Civic Connect'] },
@@ -561,16 +561,16 @@ export default function Home() {
                   { title: 'Organization', links: ['canadianhindu.ca', 'About Us', 'Contact', 'Admin'] },
                 ].map((col, i) => (
                   <div key={i}>
-                    <div style={{ color: '#FAF3E0', fontSize: '0.78rem', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: 20, opacity: 0.5 }}>{col.title}</div>
+                    <div style={{ color: '#FFFFFF', fontSize: '0.85rem', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: 20, opacity: 1 }}>{col.title}</div>
                     {col.links.map(link => (
-                      <div key={link} style={{ color: 'rgba(201,160,96,0.5)', fontSize: '0.9rem', marginBottom: 10, cursor: 'pointer', transition: 'color 0.2s' }}
-                        onMouseOver={e => (e.currentTarget.style.color = '#F0C060')}
-                        onMouseOut={e => (e.currentTarget.style.color = 'rgba(201,160,96,0.5)')}>{link}</div>
+                      <div key={link} style={{ color: '#E8C87A', fontSize: '1rem', marginBottom: 12, cursor: 'pointer', transition: 'color 0.2s' }}
+                        onMouseOver={e => (e.currentTarget.style.color = '#FFFFFF')}
+                        onMouseOut={e => (e.currentTarget.style.color = '#E8C87A')}>{link}</div>
                     ))}
                   </div>
                 ))}
               </div>
-              <div style={{ borderTop: '1px solid rgba(240,192,96,0.08)', paddingTop: 28, display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem', color: 'rgba(201,160,96,0.3)', flexWrap: 'wrap', gap: 12 }}>
+              <div style={{ borderTop: '1px solid rgba(255,255,255,0.15)', paddingTop: 28, display: 'flex', justifyContent: 'space-between', fontSize: '0.88rem', color: 'rgba(255,255,255,0.55)', flexWrap: 'wrap', gap: 12 }}>
                 <div>© 2025 Canadian Hindu Volunteers</div>
                 <div>For educational & spiritual guidance only · Not a substitute for professional advice</div>
               </div>
