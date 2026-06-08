@@ -13,19 +13,19 @@ const NAV_ITEMS = [
 ]
 
 const HERO_SLIDES = [
-  { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Akshardham_temple_at_night.jpg/1280px-Akshardham_temple_at_night.jpg', caption: 'Akshardham, New Delhi' },
-  { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Kedarnath_Temple.jpg/1280px-Kedarnath_Temple.jpg', caption: 'Kedarnath, Uttarakhand' },
-  { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Golden_Temple_reflection.jpg/1280px-Golden_Temple_reflection.jpg', caption: 'Harmandir Sahib, Amritsar' },
-  { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Brihadeeswarar_Temple_Thanjavur.jpg/1280px-Brihadeeswarar_Temple_Thanjavur.jpg', caption: 'Brihadeeswarar, Thanjavur' },
+  { url: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?w=1400&q=80', caption: 'Akshardham, New Delhi' },
+  { url: 'https://images.unsplash.com/photo-1590077428593-a55bb07c4665?w=1400&q=80', caption: 'Kedarnath, Uttarakhand' },
+  { url: 'https://images.unsplash.com/photo-1609766857718-1e11db1f0dc3?w=1400&q=80', caption: 'Harmandir Sahib, Amritsar' },
+  { url: 'https://images.unsplash.com/photo-1570458436416-b8fcccfe883f?w=1400&q=80', caption: 'Brihadeeswarar, Thanjavur' },
 ]
 
 const GALLERY = [
-  { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Nataraja_at_CSMVS.jpg/800px-Nataraja_at_CSMVS.jpg', title: 'Nataraja', sub: 'The Cosmic Dance' },
-  { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Diya_-_oil_lamp.jpg/800px-Diya_-_oil_lamp.jpg', title: 'Deepam', sub: 'Light of Knowledge' },
-  { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Lotus_flower_%28978659%29.jpg/800px-Lotus_flower_%28978659%29.jpg', title: 'Padma', sub: 'Symbol of Purity' },
-  { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Ganesha_Basohli_miniature_circa_1730_Dubost_p73.jpg/800px-Ganesha_Basohli_miniature_circa_1730_Dubost_p73.jpg', title: 'Ganesha', sub: 'Remover of Obstacles' },
-  { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Rangoli_design_at_Diwali.jpg/800px-Rangoli_design_at_Diwali.jpg', title: 'Rangoli', sub: 'Festival of Light' },
-  { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Bhagavad_Gita_by_Shrimad_Rajchandra.jpg/800px-Bhagavad_Gita_by_Shrimad_Rajchandra.jpg', title: 'Bhagavad Gita', sub: 'Eternal Wisdom' },
+  { url: 'https://images.unsplash.com/photo-1606298855672-3efb63017be8?w=800&q=80', title: 'Nataraja', sub: 'The Cosmic Dance' },
+  { url: 'https://images.unsplash.com/photo-1604422378831-ef3c7e1b4e9a?w=800&q=80', title: 'Deepam', sub: 'Light of Knowledge' },
+  { url: 'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=800&q=80', title: 'Padma', sub: 'Symbol of Purity' },
+  { url: 'https://images.unsplash.com/photo-1567591370429-3a8e87c4c8b3?w=800&q=80', title: 'Ganesha', sub: 'Remover of Obstacles' },
+  { url: 'https://images.unsplash.com/photo-1601662528567-526cd06f6582?w=800&q=80', title: 'Rangoli', sub: 'Festival of Light' },
+  { url: 'https://images.unsplash.com/photo-1585421514284-efb74c2b69ba?w=800&q=80', title: 'Bhagavad Gita', sub: 'Eternal Wisdom' },
 ]
 
 const SUGGESTED = [
@@ -457,7 +457,7 @@ export default function Home() {
           {/* DHARMIC SPLIT — cinematic section */}
           <div style={{ position: 'relative', overflow: 'hidden' }}>
             <div style={{
-              background: `url(https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Puja_offerings.jpg/1280px-Puja_offerings.jpg) center/cover fixed`,
+              background: `url(https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1400&q=80) center/cover fixed`,
               padding: '120px 24px',
             }}>
               <div style={{ position: 'absolute', inset: 0, background: 'rgba(14,4,0,0.82)' }} />
@@ -756,7 +756,7 @@ export default function Home() {
                 <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '3.5rem', color: 'var(--dark)', marginBottom: 12 }}>Articles & Community News</h1>
                 <p style={{ fontSize: '1.1rem', color: 'var(--text-sub)', fontStyle: 'italic' }}>Stories, insights and wisdom from the Canadian Hindu community</p>
               </div>
-              <div style={{ position: 'relative', background: `url(https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Kedarnath_Temple.jpg/1280px-Kedarnath_Temple.jpg) center/cover`, borderRadius: 12, padding: '72px 56px', marginBottom: 48, overflow: 'hidden' }}>
+              <div style={{ position: 'relative', background: `url(https://images.unsplash.com/photo-1590077428593-a55bb07c4665?w=1400&q=80) center/cover`, borderRadius: 12, padding: '72px 56px', marginBottom: 48, overflow: 'hidden' }}>
                 <div style={{ position: 'absolute', inset: 0, background: 'rgba(14,4,0,0.78)', borderRadius: 12 }} />
                 <div style={{ position: 'relative', color: '#FAF3E0' }}>
                   <div style={{ fontSize: '0.72rem', color: '#F0C060', letterSpacing: '2.5px', textTransform: 'uppercase', marginBottom: 14 }}>📌 Featured · Announcements</div>
