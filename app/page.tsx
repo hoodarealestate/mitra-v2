@@ -717,7 +717,7 @@ export default function Home() {
               <div style={{ background: '#EBF4FF', border: '1px solid #BEE3F8', borderRadius: 8, padding: '16px 24px', marginBottom: 36, fontSize: '0.95rem', color: '#2C5282' }}>⚖️ <strong>Non-Partisan:</strong> Mitra Civic Connect welcomes all parties equally. Canadian Hindu Volunteers does not endorse any candidate or party.</div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 28 }}>
                 {[
-                  { emoji: '🏛️', title: 'I Am a Candidate', desc: 'Reach verified Dharmic voters in your riding. Listed until election day. All parties welcome.', links: [{ label: 'Featured Listing — $50', href: ZEFFY_LINKS.featuredCandidate, bg: '#2C5282' }, { label: 'Riding-Wide Announcement — $100', href: ZEFFY_LINKS.ridingAnnouncement, bg: '#1A365D' }] },
+                  { emoji: '🏛️', title: 'I Am a Candidate', desc: 'Reach verified Dharmic voters in your riding. Listed until election day. All parties welcome.', links: [{ label: 'Featured Listing — $200', href: ZEFFY_LINKS.featuredCandidate, bg: '#2C5282' }, { label: 'Riding-Wide Announcement — $100', href: ZEFFY_LINKS.ridingAnnouncement, bg: '#1A365D' }] },
                 ].map((card, i) => (
                   <div key={i} style={{ background: 'white', border: '2px solid #2C5282', borderRadius: 12, padding: '40px 36px', animation: 'slideInLeft 0.5s ease both' }}>
                     <div style={{ fontSize: '3rem', marginBottom: 18 }}>{card.emoji}</div>
