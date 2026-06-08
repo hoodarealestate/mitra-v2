@@ -24,8 +24,8 @@ const GALLERY = [
   { url: 'https://images.unsplash.com/photo-1632962237468-0705d7e7b534?w=800&q=80', title: 'Konark', sub: 'Sun Temple — Stone Legacy' },
   { url: 'https://images.unsplash.com/photo-1601815264039-67c8ba1a7f98?w=800&q=80', title: 'Mandir', sub: 'Place of Worship' },
   { url: 'https://images.unsplash.com/photo-1715876722520-02ccc9248dab?w=800&q=80', title: 'Shikhara', sub: 'Temple Spire — Reaching the Divine' },
-  { url: 'https://images.unsplash.com/photo-1524443169398-9aa1ceab67d5?w=800&q=80', title: 'Gurudwara', sub: 'Sikh Place of Worship' },
-  { url: 'https://images.unsplash.com/photo-1600867161364-67e000733952?w=800&q=80', title: 'Devi', sub: 'Divine Feminine — Shakti' },
+  { url: 'https://images.unsplash.com/photo-kahaDaUfuA4?w=800&q=80', title: 'Harmandir Sahib', sub: 'Golden Temple, Amritsar' },
+  { url: 'https://images.unsplash.com/photo-MeOiwmZwG_k?w=800&q=80', title: 'Hawan · Yagya', sub: 'Sacred Vedic Fire Ceremony' },
 ]
 
 const SUGGESTED = [
