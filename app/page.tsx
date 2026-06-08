@@ -2,32 +2,37 @@
 import { useState, useRef, useEffect } from 'react'
 import { ZEFFY_LINKS, CONNECT_CATEGORIES } from '@/lib/constants'
 
-const OM = 'ॐ'
-
 const NAV_ITEMS = [
   { icon: '🤖', label: 'Mitra AI', id: 'ai' },
   { icon: '🏢', label: 'Directory', id: 'directory' },
   { icon: '🏅', label: 'Certify', id: 'certify' },
-  { icon: '📋', label: 'Connect Board', id: 'connect' },
+  { icon: '📋', label: 'Connect', id: 'connect' },
   { icon: '🗳️', label: 'Civic', id: 'civic' },
-  { icon: '🪪', label: 'Join', id: 'join' },
   { icon: '📰', label: 'Articles', id: 'blog' },
+  { icon: '🪪', label: 'Join', id: 'join' },
+]
+
+const TEMPLE_IMAGES = [
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Akshardham_temple_at_night.jpg/1280px-Akshardham_temple_at_night.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Kedarnath_Temple.jpg/1280px-Kedarnath_Temple.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Golden_Temple_reflection.jpg/1280px-Golden_Temple_reflection.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Brihadeeswarar_Temple_Thanjavur.jpg/1280px-Brihadeeswarar_Temple_Thanjavur.jpg',
+]
+
+const HERITAGE_IMAGES = [
+  { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Nataraja_at_CSMVS.jpg/800px-Nataraja_at_CSMVS.jpg', caption: 'Nataraja — The Cosmic Dance' },
+  { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Diya_-_oil_lamp.jpg/800px-Diya_-_oil_lamp.jpg', caption: 'Deepam — Light of Knowledge' },
+  { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Lotus_flower_%28978659).jpg/800px-Lotus_flower_%28978659%29.jpg', caption: 'Lotus — Symbol of Purity' },
+  { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Ganesha_Basohli_miniature_circa_1730_Dubost_p73.jpg/800px-Ganesha_Basohli_miniature_circa_1730_Dubost_p73.jpg', caption: 'Ganesha — Remover of Obstacles' },
 ]
 
 const SUGGESTED = [
-  { en: "I'm a child — why do we do puja and light diyas?", hi: "हम घर पर पूजा और दीया क्यों करते हैं?" },
-  { en: "My friend says Hindus worship idols — how do I explain?", hi: "मेरे दोस्त ने कहा हिन्दू मूर्तिपूजक हैं — क्या जवाब दूं?" },
+  { en: "Why do we light a diya? What does it mean spiritually?", hi: "हम दीया क्यों जलाते हैं? इसका आध्यात्मिक अर्थ क्या है?" },
+  { en: "My friend says Hindus worship idols. How do I explain?", hi: "मेरे दोस्त ने कहा हिन्दू मूर्तिपूजक हैं — क्या जवाब दूं?" },
   { en: "What does the Bhagavad Gita say about dealing with stress?", hi: "तनाव से निपटने के बारे में गीता क्या कहती है?" },
-  { en: "What is the soul (Atman)? Where do we go after death?", hi: "आत्मा क्या है? मृत्यु के बाद हम कहाँ जाते हैं?" },
-  { en: "How can I live a truly dharmic life today?", hi: "आज के समय में धर्मपूर्ण जीवन कैसे जिएं?" },
-  { en: "Why is Hanuman not a monkey? What is the real story?", hi: "हनुमान जी बन्दर नहीं थे — असली कहानी क्या है?" },
-]
-
-const STATS = [
-  { num: '14', label: 'Vedic Scriptures', sub: 'in knowledge base' },
-  { num: '100%', label: 'Free to Join', sub: '$1 identity verify' },
-  { num: '25%', label: 'To Partner Orgs', sub: 'per certification' },
-  { num: '25%', label: 'To Charity', sub: 'per certification' },
+  { en: "What is the soul? Where do we go after death?", hi: "आत्मा क्या है? मृत्यु के बाद हम कहाँ जाते हैं?" },
+  { en: "How can I live a truly dharmic life today?", hi: "आज धर्मपूर्ण जीवन कैसे जिएं?" },
+  { en: "Why is Hanuman not a monkey? The real story.", hi: "हनुमान जी बन्दर नहीं थे — असली कहानी क्या है?" },
 ]
 
 const formatMessage = (text: string) => {
@@ -36,26 +41,31 @@ const formatMessage = (text: string) => {
     const parts = line.split(/(\*\*[^*]+\*\*)/g)
     const formatted = parts.map((p, j) =>
       p.startsWith('**') && p.endsWith('**')
-        ? <strong key={j} style={{ color: '#5C2200' }}>{p.slice(2, -2)}</strong>
+        ? <strong key={j}>{p.slice(2, -2)}</strong>
         : p
     )
-    return <p key={i} style={{ margin: '3px 0', lineHeight: 1.75 }}>{formatted}</p>
+    return <p key={i} style={{ margin: '4px 0', lineHeight: 1.8 }}>{formatted}</p>
   })
 }
 
 export default function Home() {
-  const [activeSection, setActiveSection] = useState('home')
+  const [active, setActive] = useState('home')
   const [messages, setMessages] = useState<{ role: string; content: string }[]>([])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const [lang, setLang] = useState<'en' | 'hi'>('en')
+  const [heroImg, setHeroImg] = useState(0)
   const [showSuggestions, setShowSuggestions] = useState(true)
-  const [mobileNavOpen, setMobileNavOpen] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, loading])
+
+  useEffect(() => {
+    const interval = setInterval(() => setHeroImg(i => (i + 1) % TEMPLE_IMAGES.length), 5000)
+    return () => clearInterval(interval)
+  }, [])
 
   const sendMessage = async (text?: string) => {
     const userText = text || input.trim()
@@ -79,767 +89,656 @@ export default function Home() {
     setLoading(false)
   }
 
-  const s: Record<string, any> = {
-    // Layout
-    page: { minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--cream)' },
-    // Header
-    header: {
-      background: 'linear-gradient(135deg, #2C0E00 0%, #5C2200 50%, #3D1200 100%)',
-      position: 'sticky', top: 0, zIndex: 200,
-      boxShadow: '0 4px 20px rgba(60,18,0,0.4)',
-    },
-    headerInner: {
-      maxWidth: 1100, margin: '0 auto', padding: '12px 20px',
-      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-    },
-    logo: { display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer' },
-    omBadge: {
-      width: 46, height: 46, borderRadius: '50%',
-      background: 'linear-gradient(135deg, #F5C842, #E8851A)',
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      fontSize: 22, color: '#3D1200', fontFamily: 'var(--font-devanagari)',
-      fontWeight: 'bold', boxShadow: '0 0 20px rgba(245,200,66,0.5)',
-      flexShrink: 0,
-    },
-    logoText: { fontFamily: 'var(--font-display)', fontSize: '1.3rem', fontWeight: 700, color: '#FFF8E7' },
-    logoSub: { fontSize: '0.65rem', color: '#F5C842', letterSpacing: '1.5px', textTransform: 'uppercase' as const },
-    nav: { display: 'flex', gap: 4, alignItems: 'center' },
-    navBtn: (active: boolean): React.CSSProperties => ({
-      padding: '6px 14px', borderRadius: 20, border: 'none', cursor: 'pointer',
-      background: active ? 'linear-gradient(135deg, #F5C842, #E8851A)' : 'transparent',
-      color: active ? '#3D1200' : '#F5D99A',
-      fontSize: '0.8rem', fontWeight: active ? 700 : 400,
-      transition: 'all 0.2s', fontFamily: 'var(--font-body)',
-    }),
-    goldLine: { height: 3, background: 'linear-gradient(90deg, transparent, #F5C842, #E8851A, #F5C842, transparent)' },
-    // Main
-    main: { flex: 1, maxWidth: 1100, width: '100%', margin: '0 auto', padding: '0 20px' },
-    // Hero
-    hero: {
-      textAlign: 'center' as const, padding: '50px 20px 30px',
-      background: 'radial-gradient(ellipse at center top, rgba(196,80,14,0.08) 0%, transparent 70%)',
-    },
-    heroOm: {
-      fontSize: '5rem', lineHeight: 1, fontFamily: 'var(--font-devanagari)',
-      color: 'var(--saffron)', marginBottom: 12,
-      textShadow: '0 4px 20px rgba(196,80,14,0.3)',
-    },
-    heroTitle: { fontSize: '2.2rem', fontFamily: 'var(--font-display)', color: 'var(--darkest)', marginBottom: 10 },
-    heroSub: { fontSize: '1.05rem', color: 'var(--text-sub)', maxWidth: 560, margin: '0 auto 20px', lineHeight: 1.8 },
-    heroBadge: {
-      display: 'inline-flex', gap: 8, alignItems: 'center',
-      background: 'var(--warm-white)', border: '1px solid var(--gold)',
-      borderRadius: 24, padding: '6px 18px', color: '#8B6A00',
-      fontSize: '0.8rem', fontWeight: 600, letterSpacing: '0.3px',
-    },
-    // Stats bar
-    statsBar: {
-      display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16,
-      padding: '20px 0 30px',
-    },
-    statCard: {
-      background: 'var(--warm-white)', border: '1px solid var(--border)',
-      borderRadius: 16, padding: '16px', textAlign: 'center' as const,
-      boxShadow: '0 2px 10px rgba(92,34,0,0.06)',
-    },
-    statNum: { fontSize: '1.8rem', fontFamily: 'var(--font-display)', color: 'var(--saffron)', fontWeight: 700 },
-    statLabel: { fontSize: '0.85rem', color: 'var(--text-main)', fontWeight: 600 },
-    statSub: { fontSize: '0.72rem', color: 'var(--text-sub)' },
-    // Feature grid
-    featureGrid: {
-      display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 18, padding: '0 0 30px',
-    },
-    featureCard: (color: string): React.CSSProperties => ({
-      background: 'var(--warm-white)', border: `1px solid var(--border)`,
-      borderTop: `3px solid ${color}`,
-      borderRadius: 16, padding: '24px 20px',
-      boxShadow: '0 2px 12px rgba(92,34,0,0.07)',
-      cursor: 'pointer', transition: 'all 0.2s',
-    }),
-    featureIcon: { fontSize: '2rem', marginBottom: 10 },
-    featureTitle: { fontSize: '1.05rem', fontFamily: 'var(--font-display)', color: 'var(--darkest)', marginBottom: 6 },
-    featureDesc: { fontSize: '0.88rem', color: 'var(--text-sub)', lineHeight: 1.65 },
-    featureBtn: (color: string): React.CSSProperties => ({
-      marginTop: 14, display: 'inline-block', padding: '7px 16px',
-      background: color, color: '#fff', borderRadius: 20,
-      fontSize: '0.78rem', fontWeight: 600, border: 'none', cursor: 'pointer',
-      textDecoration: 'none',
-    }),
-    // AI Chat section
-    chatSection: { padding: '10px 0 30px' },
-    chatBox: {
-      background: 'var(--warm-white)', border: '1px solid var(--border)',
-      borderRadius: 20, overflow: 'hidden',
-      boxShadow: '0 4px 20px rgba(92,34,0,0.1)',
-    },
-    chatHeader: {
-      background: 'linear-gradient(135deg, #5C2200, #8B3A0A)',
-      padding: '14px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-    },
-    chatMessages: {
-      height: 440, overflowY: 'auto' as const, padding: '20px',
-      display: 'flex', flexDirection: 'column' as const, gap: 16,
-    },
-    userBubble: {
-      alignSelf: 'flex-end' as const, maxWidth: '75%',
-      background: 'linear-gradient(135deg, #7A3010, #5C2200)',
-      color: '#FFF8E7', borderRadius: '18px 4px 18px 18px',
-      padding: '12px 18px', fontSize: '0.93rem', lineHeight: 1.7,
-    },
-    aiBubble: {
-      alignSelf: 'flex-start' as const, maxWidth: '80%',
-      background: '#FFFBF0', border: '1px solid var(--gold)',
-      borderRadius: '4px 18px 18px 18px',
-      padding: '12px 18px', fontSize: '0.93rem',
-      boxShadow: '0 2px 10px rgba(92,34,0,0.08)',
-    },
-    inputArea: {
-      padding: '14px 16px', borderTop: '1px solid var(--border)',
-      display: 'flex', gap: 10, alignItems: 'flex-end',
-    },
-    textarea: {
-      flex: 1, background: 'transparent', border: 'none', outline: 'none',
-      color: 'var(--text-main)', fontSize: '0.93rem', resize: 'none' as const,
-      lineHeight: 1.6, fontFamily: 'var(--font-body)',
-      maxHeight: 100, overflowY: 'auto' as const,
-    },
-    sendBtn: (enabled: boolean): React.CSSProperties => ({
-      width: 42, height: 42, borderRadius: '50%',
-      background: enabled ? 'linear-gradient(135deg, #E8851A, #C4500E)' : '#D4B896',
-      border: 'none', cursor: enabled ? 'pointer' : 'not-allowed',
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      fontSize: 18, flexShrink: 0,
-      boxShadow: enabled ? '0 3px 12px rgba(196,80,14,0.4)' : 'none',
-      transition: 'all 0.2s',
-    }),
-    // Suggestions grid
-    suggestGrid: {
-      display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, padding: '0 20px 16px',
-    },
-    suggestBtn: {
-      background: 'var(--cream)', border: '1px solid var(--border)',
-      borderRadius: 10, padding: '10px 14px', color: 'var(--text-main)',
-      fontSize: '0.83rem', cursor: 'pointer', textAlign: 'left' as const,
-      lineHeight: 1.5, transition: 'all 0.2s', fontFamily: 'var(--font-body)',
-    },
-    // Connect Board
-    connectSection: { padding: '10px 0 30px' },
-    categoryGrid: { display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 12, marginBottom: 20 },
-    categoryCard: {
-      background: 'var(--warm-white)', border: '1px solid var(--border)',
-      borderRadius: 14, padding: '14px 10px', textAlign: 'center' as const,
-      cursor: 'pointer', transition: 'all 0.2s',
-      boxShadow: '0 1px 6px rgba(92,34,0,0.06)',
-    },
-    // Certification section
-    certSection: { padding: '10px 0 30px' },
-    certCard: {
-      background: 'linear-gradient(135deg, #2C0E00, #5C2200)',
-      borderRadius: 24, padding: '40px', color: '#FFF8E7',
-      position: 'relative' as const, overflow: 'hidden',
-      boxShadow: '0 8px 30px rgba(60,18,0,0.3)',
-    },
-    certBadge: {
-      display: 'inline-flex', alignItems: 'center', gap: 8,
-      background: 'rgba(245,200,66,0.15)', border: '1px solid rgba(245,200,66,0.4)',
-      borderRadius: 20, padding: '5px 14px', marginBottom: 16,
-      fontSize: '0.78rem', color: '#F5C842', letterSpacing: '1px',
-    },
-    certTitle: { fontSize: '2rem', fontFamily: 'var(--font-display)', marginBottom: 10, color: '#FFF8E7' },
-    certDesc: { fontSize: '1rem', color: '#F5D99A', lineHeight: 1.8, marginBottom: 24, maxWidth: 580 },
-    certSplit: {
-      display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 28,
-    },
-    splitCard: {
-      background: 'rgba(255,255,255,0.08)', borderRadius: 14,
-      padding: '16px', textAlign: 'center' as const,
-      border: '1px solid rgba(245,200,66,0.2)',
-    },
-    certBtn: {
-      display: 'inline-block', padding: '14px 32px',
-      background: 'linear-gradient(135deg, #F5C842, #E8851A)',
-      color: '#3D1200', borderRadius: 30, fontWeight: 700,
-      fontSize: '1rem', textDecoration: 'none', cursor: 'pointer',
-      border: 'none', fontFamily: 'var(--font-display)',
-      boxShadow: '0 4px 20px rgba(245,200,66,0.4)',
-    },
-    // Civic section  
-    civicSection: { padding: '10px 0 30px' },
-    civicGrid: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 },
-    civicCard: (color: string): React.CSSProperties => ({
-      background: 'var(--warm-white)', border: `2px solid ${color}`,
-      borderRadius: 20, padding: '28px 24px',
-      boxShadow: '0 4px 16px rgba(92,34,0,0.08)',
-    }),
-    // Join section
-    joinSection: { padding: '10px 0 50px' },
-    joinCard: {
-      background: 'var(--warm-white)', border: '1px solid var(--border)',
-      borderRadius: 24, padding: '36px', textAlign: 'center' as const,
-      boxShadow: '0 4px 20px rgba(92,34,0,0.08)',
-    },
-    joinBtn: {
-      display: 'inline-block', padding: '14px 40px',
-      background: 'linear-gradient(135deg, #C4500E, #8B3A0A)',
-      color: '#FFF8E7', borderRadius: 30, fontWeight: 700,
-      fontSize: '1rem', textDecoration: 'none',
-      boxShadow: '0 4px 16px rgba(196,80,14,0.35)',
-      fontFamily: 'var(--font-display)',
-    },
-    // Section headers
-    sectionTitle: {
-      fontSize: '1.6rem', fontFamily: 'var(--font-display)',
-      color: 'var(--darkest)', marginBottom: 6,
-    },
-    sectionSub: { fontSize: '0.95rem', color: 'var(--text-sub)', marginBottom: 24 },
-    sectionDivider: {
-      height: 2, background: 'linear-gradient(90deg, var(--saffron), var(--gold), transparent)',
-      borderRadius: 2, marginBottom: 24, width: 80,
-    },
-  }
-
-  const FEATURES = [
-    {
-      icon: '🤖', title: 'Mitra AI', color: '#C4500E', id: 'ai',
-      desc: 'Ask anything about Vedic wisdom, dharma, daily life, spirituality, and Hindu identity. Powered by the 14 Vedic scriptures.',
-      btn: 'Ask Mitra',
-    },
-    {
-      icon: '🏢', title: 'Business Directory', color: '#8B3A0A', id: 'directory',
-      desc: 'Find verified Dharmic businesses across Canada. Every listing is identity-verified and community-trusted.',
-      btn: 'Browse Directory',
-    },
-    {
-      icon: '🏅', title: 'Dharmic Certification', color: '#D4AF37', id: 'certify',
-      desc: 'Official certification for Hindu, Sikh, Buddhist & Jain businesses. 50% supports partner orgs and Dharmic charities.',
-      btn: 'Get Certified — $100/yr',
-    },
-    {
-      icon: '📋', title: 'Connect Board', color: '#1A5C2A', id: 'connect',
-      desc: 'Find members in your city for sports, arts, study groups, seva and more. Posts auto-purge in 30 days. Free for verified members.',
-      btn: 'Browse Posts',
-    },
-    {
-      icon: '🗳️', title: 'Civic Connect', color: '#2C5282', id: 'civic',
-      desc: 'Connect with Dharmic candidates and volunteers in your riding. Sorted by postal code. Non-partisan and community-driven.',
-      btn: 'Explore Civic',
-    },
-    {
-      icon: '🪪', title: 'Member Card', color: '#6B4226', id: 'join',
-      desc: 'Get your verified Dharmic Member Card for just $1 CAD. Identity-verified, QR-scannable, valid for 1 year.',
-      btn: 'Join for $1',
-    },
-    {
-      icon: '📰', title: 'Articles & Blog', color: '#553C9A', id: 'blog',
-      desc: 'News, insights and stories from the Canadian Hindu community. Heritage, culture, dharma and community events.',
-      btn: 'Read Articles',
-    },
-  ]
-
   return (
-    <div style={s.page}>
-      {/* Header */}
-      <header style={s.header}>
-        <div style={s.headerInner}>
-          <div style={s.logo} onClick={() => setActiveSection('home')}>
-            <div style={s.omBadge}>{OM}</div>
+    <div style={{ minHeight: '100vh', background: 'var(--cream)', fontFamily: 'var(--font-body)' }}>
+
+      {/* HEADER */}
+      <header style={{
+        background: 'linear-gradient(135deg, #1C0A00 0%, #3D1500 60%, #1C0A00 100%)',
+        position: 'sticky', top: 0, zIndex: 200,
+        boxShadow: '0 4px 30px rgba(28,10,0,0.5)',
+        borderBottom: '2px solid rgba(201,146,42,0.4)',
+      }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 72 }}>
+          
+          {/* Logo */}
+          <div onClick={() => setActive('home')} style={{ display: 'flex', alignItems: 'center', gap: 14, cursor: 'pointer' }}>
+            <div style={{
+              width: 52, height: 52, borderRadius: '50%',
+              background: 'linear-gradient(135deg, #F0C060, #D4560A)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: 26, fontFamily: 'var(--font-dev)',
+              boxShadow: '0 0 20px rgba(240,192,96,0.4)',
+            }}>ॐ</div>
             <div>
-              <div style={s.logoText}>Mitra · मित्र</div>
-              <div style={s.logoSub}>Canadian Hindu Community · canadianhindu.ca</div>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', color: '#FAF3E0', letterSpacing: '0.5px', lineHeight: 1.1 }}>Mitra · मित्र</div>
+              <div style={{ fontSize: '0.62rem', color: '#C9922A', letterSpacing: '2px', textTransform: 'uppercase' }}>Canadian Hindu Community</div>
             </div>
           </div>
-          <nav style={s.nav}>
+
+          {/* Nav */}
+          <nav style={{ display: 'flex', gap: 2, alignItems: 'center' }}>
             {NAV_ITEMS.map(item => (
-              <button key={item.id} style={s.navBtn(activeSection === item.id)}
-                onClick={() => setActiveSection(item.id)}>
-                {item.icon} {item.label}
+              <button key={item.id} onClick={() => setActive(item.id)} style={{
+                padding: '8px 16px', borderRadius: 4, border: 'none', cursor: 'pointer',
+                background: active === item.id ? 'rgba(212,86,10,0.8)' : 'transparent',
+                color: active === item.id ? '#FAF3E0' : '#C9A060',
+                fontSize: '0.82rem', fontFamily: 'var(--font-body)', fontWeight: active === item.id ? 600 : 400,
+                transition: 'all 0.2s', letterSpacing: '0.3px',
+              }}>
+                {item.label}
               </button>
             ))}
-            <div style={{ display: 'flex', background: 'rgba(0,0,0,0.25)', borderRadius: 20, padding: 3, marginLeft: 8 }}>
-              {(['en', 'hi'] as const).map(l => (
-                <button key={l} onClick={() => setLang(l)} style={{
-                  padding: '4px 12px', borderRadius: 16, border: 'none', cursor: 'pointer',
-                  background: lang === l ? 'linear-gradient(135deg, #F5C842, #E8851A)' : 'transparent',
-                  color: lang === l ? '#3D1200' : '#F5D99A',
-                  fontSize: '0.75rem', fontWeight: 'bold',
-                  fontFamily: l === 'hi' ? 'var(--font-devanagari)' : 'inherit',
-                }}>
-                  {l === 'en' ? 'EN' : 'हि'}
-                </button>
-              ))}
-            </div>
+            <div style={{ width: 1, height: 24, background: 'rgba(201,146,42,0.3)', margin: '0 8px' }} />
+            {(['en', 'hi'] as const).map(l => (
+              <button key={l} onClick={() => setLang(l)} style={{
+                padding: '6px 12px', borderRadius: 4, border: 'none', cursor: 'pointer',
+                background: lang === l ? 'rgba(240,192,96,0.2)' : 'transparent',
+                color: lang === l ? '#F0C060' : '#8B6030',
+                fontSize: '0.78rem', fontWeight: 'bold',
+              }}>{l === 'en' ? 'EN' : 'हि'}</button>
+            ))}
           </nav>
         </div>
-        <div style={s.goldLine} />
+        <div style={{ height: 2, background: 'linear-gradient(90deg, transparent, #F0C060 30%, #D4560A 50%, #F0C060 70%, transparent)' }} />
       </header>
 
-      <main style={s.main}>
-
-        {/* HOME */}
-        {activeSection === 'home' && (
-          <>
-            <div style={s.hero} className="animate-fadeUp">
-              <div style={s.heroOm}>{OM}</div>
-              <h1 style={s.heroTitle}>
-                {lang === 'hi' ? 'मित्र में आपका स्वागत है 🙏' : 'Welcome to Mitra 🙏'}
+      {/* HOME PAGE */}
+      {active === 'home' && (
+        <>
+          {/* HERO — full bleed temple image */}
+          <div style={{ position: 'relative', height: '92vh', overflow: 'hidden' }}>
+            {TEMPLE_IMAGES.map((img, i) => (
+              <div key={i} style={{
+                position: 'absolute', inset: 0,
+                backgroundImage: `url(${img})`,
+                backgroundSize: 'cover', backgroundPosition: 'center',
+                opacity: heroImg === i ? 1 : 0,
+                transition: 'opacity 1.5s ease',
+              }} />
+            ))}
+            {/* Dark overlay */}
+            <div style={{
+              position: 'absolute', inset: 0,
+              background: 'linear-gradient(to bottom, rgba(28,10,0,0.3) 0%, rgba(28,10,0,0.6) 50%, rgba(28,10,0,0.85) 100%)',
+            }} />
+            {/* Hero content */}
+            <div style={{
+              position: 'absolute', inset: 0,
+              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+              textAlign: 'center', padding: '0 24px',
+              animation: 'fadeUp 1s ease forwards',
+            }}>
+              <div style={{
+                fontFamily: 'var(--font-dev)', fontSize: '5.5rem', color: '#F0C060',
+                textShadow: '0 0 40px rgba(240,192,96,0.6)', marginBottom: 8,
+                animation: 'float 4s ease-in-out infinite',
+              }}>ॐ</div>
+              <h1 style={{
+                fontFamily: 'var(--font-display)', fontSize: 'clamp(2.8rem, 6vw, 5.5rem)',
+                color: '#FAF3E0', lineHeight: 1.1, marginBottom: 20,
+                textShadow: '0 4px 20px rgba(0,0,0,0.5)',
+              }}>
+                {lang === 'hi' ? 'मित्र में आपका स्वागत है' : 'Welcome to Mitra'}
               </h1>
-              <p style={s.heroSub}>
+              <p style={{
+                fontSize: 'clamp(1.1rem, 2vw, 1.5rem)',
+                color: 'rgba(250,243,224,0.9)', maxWidth: 700,
+                fontFamily: 'var(--font-body)', fontStyle: 'italic',
+                marginBottom: 32, lineHeight: 1.7,
+                textShadow: '0 2px 10px rgba(0,0,0,0.4)',
+              }}>
                 {lang === 'hi'
-                  ? 'कनाडा में हिन्दू, सिख, बौद्ध और जैन समुदाय का एकमात्र विश्वसनीय मंच — जोड़ें, सत्यापित करें, और एक साथ आगे बढ़ें।'
-                  : 'Canada\'s trusted platform for the Hindu, Sikh, Buddhist & Jain community — connect, certify, and thrive together. Rooted in dharma. Built for you.'}
+                  ? 'कनाडा में हिन्दू, सिख, बौद्ध और जैन समुदाय का एकमात्र विश्वसनीय मंच'
+                  : "Canada's trusted home for the Hindu, Sikh, Buddhist & Jain community — connect, certify, and thrive together"}
               </p>
-              <div style={s.heroBadge}>
-                <span>🪷</span>
-                <span>धर्मो रक्षति रक्षितः — Dharma Protected, Protects</span>
+              <div style={{
+                fontFamily: 'var(--font-dev)', fontSize: '1.1rem',
+                color: '#F0C060', letterSpacing: '1px',
+                background: 'rgba(28,10,0,0.5)', padding: '10px 28px', borderRadius: 40,
+                border: '1px solid rgba(240,192,96,0.3)',
+                backdropFilter: 'blur(8px)',
+              }}>
+                धर्मो रक्षति रक्षितः — Dharma Protected, Protects
+              </div>
+              <div style={{ display: 'flex', gap: 16, marginTop: 36, flexWrap: 'wrap', justifyContent: 'center' }}>
+                <button onClick={() => setActive('ai')} style={{
+                  padding: '16px 36px', background: 'linear-gradient(135deg, #D4560A, #8B2E00)',
+                  color: '#FAF3E0', border: 'none', borderRadius: 4, cursor: 'pointer',
+                  fontSize: '1.05rem', fontFamily: 'var(--font-display)',
+                  boxShadow: '0 6px 24px rgba(212,86,10,0.5)',
+                  transition: 'transform 0.2s',
+                }}>Ask Mitra AI →</button>
+                <button onClick={() => setActive('join')} style={{
+                  padding: '16px 36px', background: 'transparent',
+                  color: '#F0C060', border: '2px solid rgba(240,192,96,0.6)', borderRadius: 4, cursor: 'pointer',
+                  fontSize: '1.05rem', fontFamily: 'var(--font-display)',
+                  backdropFilter: 'blur(8px)',
+                }}>Join for $1 CAD</button>
               </div>
             </div>
+            {/* Scroll indicator */}
+            <div style={{ position: 'absolute', bottom: 32, left: '50%', transform: 'translateX(-50%)', color: 'rgba(240,192,96,0.7)', fontSize: '0.8rem', letterSpacing: '2px', textTransform: 'uppercase' }}>
+              scroll to explore ↓
+            </div>
+          </div>
 
-            <div style={s.statsBar}>
-              {STATS.map((stat, i) => (
-                <div key={i} style={s.statCard}>
-                  <div style={s.statNum}>{stat.num}</div>
-                  <div style={s.statLabel}>{stat.label}</div>
-                  <div style={s.statSub}>{stat.sub}</div>
+          {/* STATS BAR */}
+          <div style={{ background: 'linear-gradient(135deg, #1C0A00, #3D1500)', padding: '40px 24px' }}>
+            <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 2 }}>
+              {[
+                { num: '659', label: 'Community Members', sub: 'across Canada' },
+                { num: '$1', label: 'To Join', sub: 'identity verified' },
+                { num: '25%', label: 'To Partner Orgs', sub: 'per certification' },
+                { num: '14', label: 'Vedic Scriptures', sub: 'powering Mitra AI' },
+              ].map((s, i) => (
+                <div key={i} style={{ textAlign: 'center', padding: '24px 16px', borderRight: i < 3 ? '1px solid rgba(201,146,42,0.2)' : 'none' }}>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '3rem', color: '#F0C060', lineHeight: 1 }}>{s.num}</div>
+                  <div style={{ color: '#FAF3E0', fontSize: '0.95rem', fontWeight: 600, marginTop: 6 }}>{s.label}</div>
+                  <div style={{ color: 'rgba(201,146,42,0.8)', fontSize: '0.8rem' }}>{s.sub}</div>
                 </div>
               ))}
             </div>
+          </div>
 
-            <div style={s.featureGrid}>
-              {FEATURES.map(f => (
-                <div key={f.id} style={s.featureCard(f.color)}
-                  onMouseOver={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-4px)'; (e.currentTarget as HTMLDivElement).style.boxShadow = '0 8px 24px rgba(92,34,0,0.14)' }}
-                  onMouseOut={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)'; (e.currentTarget as HTMLDivElement).style.boxShadow = '0 2px 12px rgba(92,34,0,0.07)' }}>
-                  <div style={s.featureIcon}>{f.icon}</div>
-                  <div style={s.featureTitle}>{f.title}</div>
-                  <div style={s.featureDesc}>{f.desc}</div>
-                  <button style={s.featureBtn(f.color)} onClick={() => setActiveSection(f.id)}>
-                    {f.btn} →
-                  </button>
-                </div>
-              ))}
+          {/* HERITAGE IMAGE STRIP */}
+          <div style={{ padding: '80px 24px 60px', background: 'var(--cream)' }}>
+            <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+              <div style={{ textAlign: 'center', marginBottom: 48 }}>
+                <div style={{ fontFamily: 'var(--font-dev)', fontSize: '1.3rem', color: 'var(--saffron)', marginBottom: 8 }}>सनातन धर्म</div>
+                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4vw, 3.5rem)', color: 'var(--dark)', lineHeight: 1.2 }}>
+                  Ancient Wisdom.<br />Modern Community.
+                </h2>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16 }}>
+                {HERITAGE_IMAGES.map((img, i) => (
+                  <div key={i} style={{ position: 'relative', borderRadius: 8, overflow: 'hidden', aspectRatio: '3/4' }}>
+                    <img src={img.url} alt={img.caption} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s' }}
+                      onMouseOver={e => (e.currentTarget.style.transform = 'scale(1.05)')}
+                      onMouseOut={e => (e.currentTarget.style.transform = 'scale(1)')} />
+                    <div style={{
+                      position: 'absolute', bottom: 0, left: 0, right: 0,
+                      background: 'linear-gradient(transparent, rgba(28,10,0,0.85))',
+                      padding: '32px 16px 16px',
+                      color: '#F0C060', fontSize: '0.85rem', fontStyle: 'italic',
+                      fontFamily: 'var(--font-body)',
+                    }}>{img.caption}</div>
+                  </div>
+                ))}
+              </div>
             </div>
+          </div>
 
-            {/* Dharmic Revenue Split */}
-            <div style={{ background: 'linear-gradient(135deg, #2C0E00, #5C2200)', borderRadius: 24, padding: '36px', marginBottom: 30, color: '#FFF8E7', textAlign: 'center' }}>
-              <div style={{ fontSize: '0.75rem', color: '#F5C842', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: 12 }}>The Dharmic Model</div>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.8rem', marginBottom: 12 }}>Every $100 Certification Gives Back</h2>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, marginTop: 24 }}>
+          {/* FEATURES GRID */}
+          <div style={{ background: '#F5E6C4', padding: '80px 24px' }}>
+            <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+              <div style={{ textAlign: 'center', marginBottom: 56 }}>
+                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem, 3.5vw, 3rem)', color: 'var(--dark)' }}>
+                  Everything Your Community Needs
+                </h2>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 24 }}>
+                {[
+                  { icon: '🤖', title: 'Mitra AI', color: '#D4560A', id: 'ai', desc: 'Ask anything about dharma, Vedic wisdom, Hindu identity, and daily spiritual guidance. Powered by 14 ancient scriptures.', btn: 'Ask Mitra' },
+                  { icon: '🏅', title: 'Dharmic Certification', color: '#C9922A', id: 'certify', desc: 'Official certification for Hindu, Sikh, Buddhist & Jain businesses. 50% supports partner orgs and Dharmic charities.', btn: 'Get Certified — $100/yr' },
+                  { icon: '🏢', title: 'Business Directory', color: '#7B1616', id: 'directory', desc: 'Find verified Dharmic businesses across Canada. Every listing is identity-verified and community-trusted.', btn: 'Browse Directory' },
+                  { icon: '📋', title: 'Connect Board', color: '#1A4A2E', id: 'connect', desc: 'Find community members in your city for sports, arts, study groups, seva and more. Free for verified members.', btn: 'Connect Now' },
+                  { icon: '🗳️', title: 'Civic Connect', color: '#2C4A82', id: 'civic', desc: 'Connect with Dharmic candidates and volunteers in your riding. Sorted by postal code. Non-partisan.', btn: 'Explore Civic' },
+                  { icon: '🪪', title: 'Member Card', color: '#5C2200', id: 'join', desc: 'Get your verified Dharmic Member Card for just $1 CAD. Identity-verified, QR-scannable, valid for 1 year.', btn: 'Join for $1' },
+                ].map(f => (
+                  <div key={f.id} style={{
+                    background: 'white', borderRadius: 8,
+                    borderTop: `4px solid ${f.color}`,
+                    padding: '32px 28px',
+                    boxShadow: '0 2px 20px rgba(28,10,0,0.08)',
+                    transition: 'transform 0.2s, box-shadow 0.2s',
+                  }}
+                    onMouseOver={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-6px)'; (e.currentTarget as HTMLDivElement).style.boxShadow = '0 12px 40px rgba(28,10,0,0.15)' }}
+                    onMouseOut={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)'; (e.currentTarget as HTMLDivElement).style.boxShadow = '0 2px 20px rgba(28,10,0,0.08)' }}>
+                    <div style={{ fontSize: '2.5rem', marginBottom: 16 }}>{f.icon}</div>
+                    <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.3rem', color: 'var(--dark)', marginBottom: 10 }}>{f.title}</h3>
+                    <p style={{ fontSize: '0.95rem', color: 'var(--text-sub)', lineHeight: 1.7, marginBottom: 20 }}>{f.desc}</p>
+                    <button onClick={() => setActive(f.id)} style={{
+                      background: f.color, color: 'white', border: 'none',
+                      padding: '10px 20px', borderRadius: 4, cursor: 'pointer',
+                      fontSize: '0.88rem', fontFamily: 'var(--font-body)', fontWeight: 600,
+                    }}>{f.btn} →</button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* DHARMIC SPLIT SECTION */}
+          <div style={{
+            background: `linear-gradient(rgba(28,10,0,0.88), rgba(28,10,0,0.92)), url(https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Puja_offerings.jpg/1280px-Puja_offerings.jpg) center/cover`,
+            padding: '100px 24px', textAlign: 'center', color: '#FAF3E0',
+          }}>
+            <div style={{ maxWidth: 900, margin: '0 auto' }}>
+              <div style={{ fontFamily: 'var(--font-dev)', fontSize: '1.2rem', color: '#F0C060', marginBottom: 12 }}>धर्मो रक्षति रक्षितः</div>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4vw, 3.5rem)', marginBottom: 16, lineHeight: 1.2 }}>
+                Every $100 Certification<br />Gives Back to the Community
+              </h2>
+              <p style={{ fontSize: '1.1rem', color: 'rgba(250,243,224,0.8)', marginBottom: 56, fontStyle: 'italic' }}>
+                Dharma in business means giving back — every certification directly supports community organizations and charities
+              </p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 24 }}>
                 {[
                   { pct: '25%', label: 'Partner Organization', sub: 'Temple, sabha, or referring org', icon: '🛕' },
-                  { pct: '25%', label: 'Dharmic Charity', sub: 'Selected quarterly with partner', icon: '🙏' },
-                  { pct: '50%', label: 'Platform Operations', sub: 'Keeping Mitra free & growing', icon: '🪷' },
+                  { pct: '25%', label: 'Dharmic Charity', sub: 'Selected quarterly with partners', icon: '🙏' },
+                  { pct: '50%', label: 'Platform & Programs', sub: 'Keeping Mitra free & growing', icon: '🪷' },
                 ].map((item, i) => (
-                  <div key={i} style={{ background: 'rgba(255,255,255,0.08)', borderRadius: 16, padding: '20px', border: '1px solid rgba(245,200,66,0.2)' }}>
-                    <div style={{ fontSize: '2rem', marginBottom: 8 }}>{item.icon}</div>
-                    <div style={{ fontSize: '2rem', fontFamily: 'var(--font-display)', color: '#F5C842', fontWeight: 700 }}>{item.pct}</div>
-                    <div style={{ fontSize: '0.9rem', fontWeight: 600, marginBottom: 4 }}>{item.label}</div>
-                    <div style={{ fontSize: '0.78rem', color: '#F5D99A' }}>{item.sub}</div>
+                  <div key={i} style={{
+                    background: 'rgba(255,255,255,0.06)',
+                    border: '1px solid rgba(240,192,96,0.25)',
+                    borderRadius: 8, padding: '36px 24px',
+                    backdropFilter: 'blur(10px)',
+                  }}>
+                    <div style={{ fontSize: '2.5rem', marginBottom: 12 }}>{item.icon}</div>
+                    <div style={{ fontFamily: 'var(--font-display)', fontSize: '3rem', color: '#F0C060', lineHeight: 1 }}>{item.pct}</div>
+                    <div style={{ fontSize: '1rem', fontWeight: 600, margin: '10px 0 4px' }}>{item.label}</div>
+                    <div style={{ fontSize: '0.82rem', color: 'rgba(240,192,96,0.7)' }}>{item.sub}</div>
                   </div>
                 ))}
+              </div>
+              <a href={ZEFFY_LINKS.dharmicCertification} target="_blank" rel="noopener noreferrer" style={{
+                display: 'inline-block', marginTop: 48,
+                padding: '18px 48px', background: 'linear-gradient(135deg, #F0C060, #D4560A)',
+                color: '#1C0A00', borderRadius: 4, fontFamily: 'var(--font-display)',
+                fontSize: '1.1rem', textDecoration: 'none',
+                boxShadow: '0 8px 32px rgba(240,192,96,0.3)',
+              }}>Apply for Dharmic Certification — $100/yr 🪷</a>
+            </div>
+          </div>
+
+          {/* FOOTER */}
+          <footer style={{ background: '#1C0A00', color: '#C9A060', padding: '48px 24px' }}>
+            <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: 40 }}>
+              <div>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', color: '#FAF3E0', marginBottom: 8 }}>Mitra · मित्र</div>
+                <div style={{ fontFamily: 'var(--font-dev)', fontSize: '1rem', color: '#F0C060', marginBottom: 12 }}>धर्मो रक्षति रक्षितः</div>
+                <p style={{ fontSize: '0.88rem', color: 'rgba(201,160,96,0.7)', lineHeight: 1.7 }}>
+                  A Canadian Hindu Volunteers initiative serving the Hindu, Sikh, Buddhist & Jain community across Canada.
+                </p>
+                <div style={{ marginTop: 16, fontSize: '0.82rem', color: 'rgba(201,160,96,0.5)' }}>canadianhinduvolunteers@gmail.com</div>
+              </div>
+              {[
+                { title: 'Platform', links: ['Mitra AI', 'Directory', 'Certify', 'Connect Board'] },
+                { title: 'Community', links: ['Civic Connect', 'Articles', 'Join for $1', 'Dharmic Certification'] },
+                { title: 'Organization', links: ['canadianhindu.ca', 'About Us', 'Partner With Us', 'Contact'] },
+              ].map((col, i) => (
+                <div key={i}>
+                  <div style={{ color: '#FAF3E0', fontWeight: 600, fontSize: '0.88rem', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: 16 }}>{col.title}</div>
+                  {col.links.map(link => (
+                    <div key={link} style={{ color: 'rgba(201,160,96,0.6)', fontSize: '0.88rem', marginBottom: 8, cursor: 'pointer' }}
+                      onMouseOver={e => (e.currentTarget.style.color = '#F0C060')}
+                      onMouseOut={e => (e.currentTarget.style.color = 'rgba(201,160,96,0.6)')}>{link}</div>
+                  ))}
+                </div>
+              ))}
+            </div>
+            <div style={{ maxWidth: 1200, margin: '32px auto 0', paddingTop: 24, borderTop: '1px solid rgba(201,160,96,0.15)', display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem', color: 'rgba(201,160,96,0.4)' }}>
+              <div>© 2025 Canadian Hindu Volunteers. All rights reserved.</div>
+              <div>For educational & spiritual guidance only · Not a substitute for professional advice</div>
+            </div>
+          </footer>
+        </>
+      )}
+
+      {/* MITRA AI PAGE */}
+      {active === 'ai' && (
+        <div style={{ maxWidth: 900, margin: '0 auto', padding: '60px 24px' }}>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <div style={{ fontFamily: 'var(--font-dev)', fontSize: '3rem', color: 'var(--saffron)', marginBottom: 8 }}>ॐ</div>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4vw, 3.5rem)', color: 'var(--dark)', marginBottom: 12 }}>Mitra — Your Vedic Guide</h1>
+            <p style={{ fontSize: '1.1rem', color: 'var(--text-sub)', fontStyle: 'italic' }}>Ask anything about dharma, spirituality, Hindu identity, and daily life</p>
+          </div>
+
+          <div style={{ background: 'white', borderRadius: 12, overflow: 'hidden', boxShadow: '0 8px 40px rgba(28,10,0,0.12)', border: '1px solid rgba(201,146,42,0.2)' }}>
+            {/* Chat header */}
+            <div style={{ background: 'linear-gradient(135deg, #1C0A00, #3D1500)', padding: '20px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'linear-gradient(135deg, #F0C060, #D4560A)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, fontFamily: 'var(--font-dev)' }}>ॐ</div>
+                <div>
+                  <div style={{ color: '#FAF3E0', fontFamily: 'var(--font-display)', fontSize: '1.1rem' }}>Mitra · मित्र</div>
+                  <div style={{ color: '#F0C060', fontSize: '0.68rem', letterSpacing: '1.5px', textTransform: 'uppercase' }}>Vedic AI · 14 Scriptures · Groq Powered</div>
+                </div>
+              </div>
+              <div style={{ display: 'flex', gap: 8 }}>
+                {(['en', 'hi'] as const).map(l => (
+                  <button key={l} onClick={() => setLang(l)} style={{
+                    padding: '5px 14px', borderRadius: 20, border: 'none', cursor: 'pointer',
+                    background: lang === l ? 'rgba(240,192,96,0.9)' : 'rgba(255,255,255,0.1)',
+                    color: lang === l ? '#1C0A00' : '#F0C060', fontSize: '0.78rem', fontWeight: 'bold',
+                  }}>{l === 'en' ? 'EN' : 'हि'}</button>
+                ))}
+                {messages.length > 0 && (
+                  <button onClick={() => { setMessages([]); setShowSuggestions(true) }} style={{
+                    padding: '5px 14px', borderRadius: 20, border: '1px solid rgba(240,192,96,0.3)',
+                    background: 'transparent', color: '#C9A060', fontSize: '0.75rem', cursor: 'pointer',
+                  }}>New Chat</button>
+                )}
               </div>
             </div>
-          </>
-        )}
 
-        {/* MITRA AI */}
-        {activeSection === 'ai' && (
-          <div style={s.chatSection}>
-            <div style={s.sectionTitle}>🤖 Mitra AI — Your Vedic Guide</div>
-            <div style={s.sectionDivider} />
-            <p style={s.sectionSub}>Ask anything about dharma, Vedic wisdom, Hindu identity, daily life guidance, and more.</p>
-
-            <div style={s.chatBox}>
-              <div style={s.chatHeader}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                  <div style={{ width: 38, height: 38, borderRadius: '50%', background: 'linear-gradient(135deg, #F5C842, #E8851A)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, fontFamily: 'var(--font-devanagari)', fontWeight: 'bold', color: '#3D1200' }}>{OM}</div>
-                  <div>
-                    <div style={{ color: '#FFF8E7', fontFamily: 'var(--font-display)', fontSize: '1rem' }}>Mitra · मित्र</div>
-                    <div style={{ color: '#F5C842', fontSize: '0.68rem', letterSpacing: '1px' }}>VEDIC AI GUIDE · GROQ POWERED</div>
+            {/* Messages */}
+            <div style={{ height: 480, overflowY: 'auto', padding: '24px', display: 'flex', flexDirection: 'column', gap: 20, background: '#FFFDF6' }}>
+              {messages.length === 0 && (
+                <div style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--text-sub)' }}>
+                  <div style={{ fontSize: '4rem', fontFamily: 'var(--font-dev)', color: 'var(--saffron)', marginBottom: 12 }}>ॐ</div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', color: 'var(--dark)', marginBottom: 8 }}>
+                    {lang === 'hi' ? 'मित्र से कोई भी प्रश्न पूछें' : 'Ask Mitra anything'}
                   </div>
+                  <div style={{ fontSize: '0.95rem', fontStyle: 'italic' }}>Vedic wisdom for every question, every age, every moment</div>
                 </div>
-                <div style={{ display: 'flex', gap: 8 }}>
-                  {(['en', 'hi'] as const).map(l => (
-                    <button key={l} onClick={() => setLang(l)} style={{
-                      padding: '4px 12px', borderRadius: 14, border: 'none', cursor: 'pointer',
-                      background: lang === l ? 'rgba(245,200,66,0.9)' : 'rgba(255,255,255,0.1)',
-                      color: lang === l ? '#3D1200' : '#F5D99A', fontSize: '0.75rem', fontWeight: 'bold',
-                    }}>{l === 'en' ? 'EN' : 'हि'}</button>
-                  ))}
-                  {messages.length > 0 && (
-                    <button onClick={() => { setMessages([]); setShowSuggestions(true) }} style={{
-                      padding: '4px 12px', borderRadius: 14, border: '1px solid rgba(245,200,66,0.3)',
-                      background: 'transparent', color: '#F5D99A', fontSize: '0.72rem', cursor: 'pointer',
-                    }}>✦ New Chat</button>
-                  )}
+              )}
+              {messages.map((msg, i) => (
+                <div key={i} style={{
+                  alignSelf: msg.role === 'user' ? 'flex-end' : 'flex-start',
+                  maxWidth: '80%',
+                  background: msg.role === 'user' ? 'linear-gradient(135deg, #8B2E00, #D4560A)' : 'white',
+                  color: msg.role === 'user' ? '#FAF3E0' : 'var(--text)',
+                  borderRadius: msg.role === 'user' ? '20px 4px 20px 20px' : '4px 20px 20px 20px',
+                  padding: '16px 20px', fontSize: '1rem', lineHeight: 1.7,
+                  border: msg.role === 'assistant' ? '1px solid rgba(201,146,42,0.2)' : 'none',
+                  boxShadow: '0 2px 12px rgba(28,10,0,0.08)',
+                }}>
+                  {msg.role === 'assistant' ? formatMessage(msg.content) : msg.content}
                 </div>
-              </div>
-
-              <div style={s.chatMessages}>
-                {messages.length === 0 && (
-                  <div style={{ textAlign: 'center', padding: '20px 0 10px', color: 'var(--text-sub)', fontSize: '0.9rem' }}>
-                    <div style={{ fontSize: '3rem', fontFamily: 'var(--font-devanagari)', color: 'var(--saffron)', marginBottom: 8 }}>{OM}</div>
-                    <div style={{ fontFamily: 'var(--font-display)', color: 'var(--darkest)', fontSize: '1.1rem', marginBottom: 4 }}>
-                      {lang === 'hi' ? 'मित्र से कोई भी प्रश्न पूछें' : 'Ask Mitra anything'}
-                    </div>
-                    <div style={{ fontSize: '0.85rem', color: 'var(--text-sub)' }}>
-                      Vedic wisdom rooted in 14 scriptures
-                    </div>
-                  </div>
-                )}
-                {messages.map((msg, i) => (
-                  <div key={i} style={msg.role === 'user' ? s.userBubble : s.aiBubble}>
-                    {msg.role === 'assistant' ? <div style={{ fontFamily: 'var(--font-body)' }}>{formatMessage(msg.content)}</div> : msg.content}
-                  </div>
-                ))}
-                {loading && (
-                  <div style={{ ...s.aiBubble, display: 'flex', gap: 6, alignItems: 'center', padding: '14px 18px' }}>
-                    {[0, 0.2, 0.4].map((d, i) => (
-                      <div key={i} style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--saffron)', animation: `bounce 1.2s ease-in-out ${d}s infinite` }} />
-                    ))}
-                  </div>
-                )}
-                <div ref={messagesEndRef} />
-              </div>
-
-              {showSuggestions && messages.length === 0 && (
-                <div style={s.suggestGrid}>
-                  {SUGGESTED.map((q, i) => (
-                    <button key={i} style={s.suggestBtn}
-                      onClick={() => sendMessage(lang === 'hi' ? q.hi : q.en)}
-                      onMouseOver={e => { (e.currentTarget).style.borderColor = 'var(--saffron)'; (e.currentTarget).style.background = '#FFF3D6' }}
-                      onMouseOut={e => { (e.currentTarget).style.borderColor = 'var(--border)'; (e.currentTarget).style.background = 'var(--cream)' }}>
-                      <span style={{ color: 'var(--saffron)', marginRight: 6 }}>✦</span>
-                      {lang === 'hi' ? q.hi : q.en}
-                    </button>
+              ))}
+              {loading && (
+                <div style={{
+                  alignSelf: 'flex-start', background: 'white', borderRadius: '4px 20px 20px 20px',
+                  padding: '16px 20px', display: 'flex', gap: 6, border: '1px solid rgba(201,146,42,0.2)',
+                }}>
+                  {[0, 0.2, 0.4].map((d, i) => (
+                    <div key={i} style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--saffron)', animation: `bounce 1.2s ease-in-out ${d}s infinite` }} />
                   ))}
                 </div>
               )}
+              <div ref={messagesEndRef} />
+            </div>
 
-              <div style={s.inputArea}>
-                <textarea
-                  value={input}
-                  onChange={e => setInput(e.target.value)}
-                  onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage() } }}
-                  placeholder={lang === 'hi' ? 'मित्र से कोई भी प्रश्न पूछें...' : 'Ask Mitra anything about dharma, life, Vedic wisdom...'}
-                  rows={1}
-                  style={s.textarea}
-                  onInput={e => {
-                    const t = e.target as HTMLTextAreaElement
-                    t.style.height = 'auto'
-                    t.style.height = Math.min(t.scrollHeight, 100) + 'px'
+            {/* Suggestions */}
+            {showSuggestions && messages.length === 0 && (
+              <div style={{ padding: '0 24px 16px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                {SUGGESTED.map((q, i) => (
+                  <button key={i} onClick={() => sendMessage(lang === 'hi' ? q.hi : q.en)} style={{
+                    background: '#FAF3E0', border: '1px solid rgba(201,146,42,0.3)',
+                    borderRadius: 8, padding: '12px 16px', color: 'var(--text)',
+                    fontSize: '0.88rem', cursor: 'pointer', textAlign: 'left', lineHeight: 1.5,
+                    fontFamily: lang === 'hi' ? 'var(--font-dev)' : 'var(--font-body)',
+                    transition: 'all 0.15s',
                   }}
-                />
-                <button style={s.sendBtn(!!(input.trim() && !loading))} onClick={() => sendMessage()}>🪷</button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* DIRECTORY */}
-        {activeSection === 'directory' && (
-          <div style={{ padding: '20px 0 30px' }}>
-            <div style={s.sectionTitle}>🏢 Dharmic Business Directory</div>
-            <div style={s.sectionDivider} />
-            <p style={s.sectionSub}>Verified Hindu, Sikh, Buddhist & Jain businesses across Canada. Every listing is identity-verified.</p>
-            <div style={{ background: 'var(--warm-white)', border: '1px solid var(--border)', borderRadius: 20, padding: '40px', textAlign: 'center', boxShadow: '0 4px 16px rgba(92,34,0,0.08)' }}>
-              <div style={{ fontSize: '3rem', marginBottom: 16 }}>🏢</div>
-              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', color: 'var(--darkest)', marginBottom: 10 }}>Directory Launching Soon</h3>
-              <p style={{ color: 'var(--text-sub)', maxWidth: 480, margin: '0 auto 24px', lineHeight: 1.8 }}>
-                The Dharmic Business Directory will list all certified businesses. Get your Dharmic Certification to be among the first listed when we launch.
-              </p>
-              <button style={{ ...s.featureBtn('var(--saffron)'), padding: '12px 28px', fontSize: '0.9rem' }}
-                onClick={() => setActiveSection('certify')}>
-                Get Dharmic Certified →
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* CERTIFICATION */}
-        {activeSection === 'certify' && (
-          <div style={s.certSection}>
-            <div style={s.sectionTitle}>🏅 Dharmic Business Certification</div>
-            <div style={s.sectionDivider} />
-            <div style={s.certCard}>
-              <div style={{ position: 'absolute', top: -20, right: -20, fontSize: '8rem', opacity: 0.05, fontFamily: 'var(--font-devanagari)' }}>{OM}</div>
-              <div style={s.certBadge}>🪷 OFFICIAL CERTIFICATION · $100 CAD/YEAR</div>
-              <h2 style={s.certTitle}>Dharmic Business Certification</h2>
-              <p style={s.certDesc}>
-                Official recognition for Hindu, Sikh, Buddhist & Jain business owners in Canada who operate with integrity, seva, and dharmic values. Join a trusted community of verified Dharmic entrepreneurs.
-              </p>
-              <div style={s.certSplit}>
-                {[
-                  { pct: '25%', label: 'Partner Org', icon: '🛕', sub: 'Your referring temple or sabha' },
-                  { pct: '25%', label: 'Dharmic Charity', icon: '🙏', sub: 'Selected with partner quarterly' },
-                  { pct: '50%', label: 'Operations', icon: '🪷', sub: 'Platform & community programs' },
-                ].map((item, i) => (
-                  <div key={i} style={s.splitCard}>
-                    <div style={{ fontSize: '1.5rem', marginBottom: 6 }}>{item.icon}</div>
-                    <div style={{ fontSize: '1.6rem', color: '#F5C842', fontFamily: 'var(--font-display)', fontWeight: 700 }}>{item.pct}</div>
-                    <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#FFF8E7', marginBottom: 4 }}>{item.label}</div>
-                    <div style={{ fontSize: '0.75rem', color: '#F5D99A' }}>{item.sub}</div>
-                  </div>
+                    onMouseOver={e => { (e.currentTarget).style.background = '#F5E6C4'; (e.currentTarget).style.borderColor = 'var(--saffron)' }}
+                    onMouseOut={e => { (e.currentTarget).style.background = '#FAF3E0'; (e.currentTarget).style.borderColor = 'rgba(201,146,42,0.3)' }}>
+                    <span style={{ color: 'var(--saffron)', marginRight: 6 }}>✦</span>
+                    {lang === 'hi' ? q.hi : q.en}
+                  </button>
                 ))}
               </div>
-              <div style={{ marginBottom: 24 }}>
-                {['Official Dharmic Certification badge on your profile', 'Verified listing in Mitra Business Directory', 'Digital certificate (downloadable PDF)', 'QR-verified Member Card valid for 1 year', 'Priority placement in community searches'].map((item, i) => (
-                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8, fontSize: '0.92rem', color: '#F5D99A' }}>
-                    <span style={{ color: '#F5C842', fontSize: '1rem' }}>✓</span> {item}
-                  </div>
-                ))}
-              </div>
-              <a href={ZEFFY_LINKS.dharmicCertification} target="_blank" rel="noopener noreferrer" style={s.certBtn}>
-                Apply for Certification — $100/yr 🪷
-              </a>
-              <p style={{ marginTop: 14, fontSize: '0.78rem', color: '#F5D99A', opacity: 0.8 }}>
-                Applications reviewed within 5–7 business days. Identity verification required.
-              </p>
-            </div>
-          </div>
-        )}
+            )}
 
-        {/* CONNECT BOARD */}
-        {activeSection === 'connect' && (
-          <div style={s.connectSection}>
-            <div style={s.sectionTitle}>📋 Connect Board</div>
-            <div style={s.sectionDivider} />
-            <p style={s.sectionSub}>Find Dharmic community members in your city for hobbies, meetups & more. Free for verified members ($1 identity check). Posts auto-purge in 30 days.</p>
-            <div style={s.categoryGrid}>
-              {CONNECT_CATEGORIES.map((cat, i) => (
-                <div key={i} style={s.categoryCard}
-                  onMouseOver={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--saffron)'; (e.currentTarget as HTMLDivElement).style.background = '#FFF3D6' }}
-                  onMouseOut={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--border)'; (e.currentTarget as HTMLDivElement).style.background = 'var(--warm-white)' }}>
-                  <div style={{ fontSize: '1.8rem', marginBottom: 6 }}>{cat.icon}</div>
-                  <div style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-main)' }}>{cat.label}</div>
-                </div>
-              ))}
-            </div>
-            <div style={{ background: 'var(--warm-white)', border: '1px solid var(--border)', borderRadius: 20, padding: '36px', textAlign: 'center' }}>
-              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.3rem', color: 'var(--darkest)', marginBottom: 10 }}>Connect Board Launching Soon</h3>
-              <p style={{ color: 'var(--text-sub)', maxWidth: 480, margin: '0 auto 24px', lineHeight: 1.8 }}>
-                Verified members ($1 identity check) will be able to post and browse connection requests in their city. Posts are city-specific and auto-purge after 30 days.
-              </p>
-              <a href={ZEFFY_LINKS.memberVerification} target="_blank" rel="noopener noreferrer" style={{ ...s.certBtn, background: 'linear-gradient(135deg, #C4500E, #8B3A0A)', display: 'inline-block', padding: '12px 28px', fontSize: '0.9rem', color: '#FFF8E7' }}>
-                Verify My Identity — $1 CAD 🪷
-              </a>
-            </div>
-          </div>
-        )}
-
-        {/* CIVIC */}
-        {activeSection === 'civic' && (
-          <div style={s.civicSection}>
-            <div style={s.sectionTitle}>🗳️ Civic Connect</div>
-            <div style={s.sectionDivider} />
-            <p style={s.sectionSub}>Connect Dharmic candidates with verified community members in their riding. Sorted by postal code. Completely non-partisan.</p>
-            <div style={{ background: '#EBF4FF', border: '1px solid #BEE3F8', borderRadius: 14, padding: '14px 20px', marginBottom: 24, fontSize: '0.85rem', color: '#2C5282' }}>
-              ⚖️ <strong>Non-Partisan Notice:</strong> Mitra Civic Connect welcomes candidates of all parties equally. Canadian Hindu Volunteers does not endorse any candidate or political party.
-            </div>
-            <div style={s.civicGrid}>
-              <div style={s.civicCard('#2C5282')}>
-                <div style={{ fontSize: '2rem', marginBottom: 12 }}>🏛️</div>
-                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', color: 'var(--darkest)', marginBottom: 8 }}>I Am a Candidate</h3>
-                <p style={{ fontSize: '0.88rem', color: 'var(--text-sub)', lineHeight: 1.7, marginBottom: 16 }}>
-                  Get featured on Mitra Civic Connect and reach verified Dharmic voters in your exact riding. Listed until election day.
-                </p>
-                <div style={{ marginBottom: 16 }}>
-                  {['Featured listing — $50 CAD', 'Riding-wide announcement — $100 CAD', 'Campaign bundle — $129 CAD (save $21)'].map((item, i) => (
-                    <div key={i} style={{ fontSize: '0.82rem', color: 'var(--text-sub)', marginBottom: 6, display: 'flex', gap: 8 }}>
-                      <span style={{ color: '#2C5282' }}>✓</span> {item}
-                    </div>
-                  ))}
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                  <a href={ZEFFY_LINKS.featuredCandidate} target="_blank" rel="noopener noreferrer" style={{ ...s.featureBtn('#2C5282'), textAlign: 'center', padding: '10px 20px', fontSize: '0.85rem' }}>
-                    Featured Listing — $50 →
-                  </a>
-                  <a href={ZEFFY_LINKS.ridingAnnouncement} target="_blank" rel="noopener noreferrer" style={{ ...s.featureBtn('#1A365D'), textAlign: 'center', padding: '10px 20px', fontSize: '0.85rem' }}>
-                    Riding Announcement — $100 →
-                  </a>
-                </div>
-              </div>
-              <div style={s.civicCard('#1A5C2A')}>
-                <div style={{ fontSize: '2rem', marginBottom: 12 }}>🙋</div>
-                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', color: 'var(--darkest)', marginBottom: 8 }}>I Want to Volunteer</h3>
-                <p style={{ fontSize: '0.88rem', color: 'var(--text-sub)', lineHeight: 1.7, marginBottom: 16 }}>
-                  Find Dharmic candidates in your riding and offer your support. Enter your postal code to see who is running near you.
-                </p>
-                <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: 12, padding: '14px', marginBottom: 16 }}>
-                  <div style={{ fontSize: '0.82rem', color: 'var(--text-sub)', marginBottom: 8 }}>Enter your postal code to find candidates in your riding:</div>
-                  <div style={{ display: 'flex', gap: 8 }}>
-                    <input type="text" placeholder="e.g. L6Y 0A1" style={{
-                      flex: 1, padding: '8px 12px', borderRadius: 10, border: '1px solid var(--border)',
-                      background: 'white', fontSize: '0.88rem', outline: 'none',
-                      fontFamily: 'var(--font-body)',
-                    }} />
-                    <button style={{ ...s.featureBtn('#1A5C2A'), padding: '8px 16px', fontSize: '0.82rem' }}>
-                      Search
-                    </button>
-                  </div>
-                </div>
-                <p style={{ fontSize: '0.78rem', color: 'var(--text-sub)', lineHeight: 1.6 }}>
-                  Civic Connect launching for the next federal election. <a href={ZEFFY_LINKS.memberVerification} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--saffron)' }}>Verify your membership</a> to be notified.
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* JOIN */}
-        {activeSection === 'join' && (
-          <div style={s.joinSection}>
-            <div style={s.sectionTitle}>🪪 Join the Mitra Community</div>
-            <div style={s.sectionDivider} />
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 24 }}>
-              <div style={s.joinCard}>
-                <div style={{ fontSize: '3rem', marginBottom: 14 }}>🪪</div>
-                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.3rem', color: 'var(--darkest)', marginBottom: 10 }}>Verified Member Card</h3>
-                <div style={{ fontSize: '2.2rem', fontFamily: 'var(--font-display)', color: 'var(--saffron)', fontWeight: 700, marginBottom: 6 }}>$1 CAD</div>
-                <div style={{ fontSize: '0.8rem', color: 'var(--text-sub)', marginBottom: 16 }}>One-time identity verification · Valid 1 year</div>
-                <div style={{ marginBottom: 20 }}>
-                  {['Identity-verified Member Card', 'Post on the Connect Board', 'Connect with members in your city', 'Access Civic Connect in your riding', 'QR-scannable digital card', 'Chat with Mitra AI (save history)'].map((item, i) => (
-                    <div key={i} style={{ fontSize: '0.85rem', color: 'var(--text-sub)', marginBottom: 7, display: 'flex', gap: 8, textAlign: 'left' }}>
-                      <span style={{ color: 'var(--saffron)', flexShrink: 0 }}>✓</span> {item}
-                    </div>
-                  ))}
-                </div>
-                <a href={ZEFFY_LINKS.memberVerification} target="_blank" rel="noopener noreferrer" style={s.joinBtn}>
-                  Verify My Identity — $1 🪷
-                </a>
-                <p style={{ marginTop: 12, fontSize: '0.75rem', color: 'var(--text-sub)' }}>Must be 16+. Identity verified by Canadian Hindu Volunteers.</p>
-              </div>
-              <div style={{ ...s.joinCard, background: 'linear-gradient(135deg, #2C0E00, #5C2200)', color: '#FFF8E7' }}>
-                <div style={{ fontSize: '3rem', marginBottom: 14 }}>🏅</div>
-                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.3rem', color: '#FFF8E7', marginBottom: 10 }}>Dharmic Business Certification</h3>
-                <div style={{ fontSize: '2.2rem', fontFamily: 'var(--font-display)', color: '#F5C842', fontWeight: 700, marginBottom: 6 }}>$100 CAD</div>
-                <div style={{ fontSize: '0.8rem', color: '#F5D99A', marginBottom: 16 }}>Annual certification · Renews yearly</div>
-                <div style={{ marginBottom: 20 }}>
-                  {['Everything in Member Card', 'Official Dharmic Certification badge', 'Business Directory listing', 'Downloadable PDF certificate', '25% to your referring org', '25% to a Dharmic charity'].map((item, i) => (
-                    <div key={i} style={{ fontSize: '0.85rem', color: '#F5D99A', marginBottom: 7, display: 'flex', gap: 8, textAlign: 'left' }}>
-                      <span style={{ color: '#F5C842', flexShrink: 0 }}>✓</span> {item}
-                    </div>
-                  ))}
-                </div>
-                <a href={ZEFFY_LINKS.dharmicCertification} target="_blank" rel="noopener noreferrer" style={{ ...s.certBtn, display: 'inline-block' }}>
-                  Get Certified — $100/yr 🏅
-                </a>
-                <p style={{ marginTop: 12, fontSize: '0.75rem', color: '#F5D99A', opacity: 0.8 }}>For Hindu, Sikh, Buddhist & Jain business owners.</p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* BLOG */}
-        {activeSection === 'blog' && (
-          <div style={{ padding: '20px 0 40px' }}>
-            <div style={s.sectionTitle}>📰 Articles & Community News</div>
-            <div style={s.sectionDivider} />
-            <p style={s.sectionSub}>Stories, insights and updates from the Canadian Hindu community.</p>
-
-            {/* Category filters */}
-            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' as const, marginBottom: 28 }}>
-              {['All', 'Community', 'Dharma & Spirituality', 'Heritage & Culture', 'Youth', 'Announcements', 'Civic'].map((cat, i) => (
-                <button key={i} style={{
-                  padding: '6px 16px', borderRadius: 20,
-                  border: i === 0 ? 'none' : '1px solid var(--border)',
-                  background: i === 0 ? 'var(--saffron)' : 'var(--warm-white)',
-                  color: i === 0 ? '#fff' : 'var(--text-sub)',
-                  fontSize: '0.82rem', cursor: 'pointer', fontFamily: 'var(--font-body)',
-                }}>{cat}</button>
-              ))}
-            </div>
-
-            {/* Featured article */}
-            <div style={{
-              background: 'linear-gradient(135deg, #2C0E00, #5C2200)',
-              borderRadius: 20, padding: '36px', marginBottom: 24, color: '#FFF8E7',
-              position: 'relative' as const, overflow: 'hidden',
-            }}>
-              <div style={{ position: 'absolute' as const, top: -20, right: -20, fontSize: '8rem', opacity: 0.05, fontFamily: 'var(--font-devanagari)' }}>ॐ</div>
-              <div style={{ fontSize: '0.72rem', color: '#F5C842', letterSpacing: '2px', textTransform: 'uppercase' as const, marginBottom: 10 }}>📌 Featured · Announcements</div>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.6rem', marginBottom: 12, color: '#FFF8E7' }}>
-                Welcome to the New canadianhindu.ca
-              </h2>
-              <p style={{ color: '#F5D99A', lineHeight: 1.8, marginBottom: 20, maxWidth: 640, fontSize: '0.95rem' }}>
-                Canadian Hindu Volunteers is proud to launch Mitra 2.0 — a complete community platform for Hindus, Sikhs, Buddhists and Jains across Canada. This platform brings together Vedic AI wisdom, a verified business directory, Dharmic certification, civic engagement tools, and community connection — all in one place rooted in dharma.
-              </p>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 16, fontSize: '0.8rem', color: '#F5D99A' }}>
-                <span>✍️ Canadian Hindu Volunteers</span>
-                <span>·</span>
-                <span>📅 June 2025</span>
-                <span>·</span>
-                <span>3 min read</span>
-              </div>
-            </div>
-
-            {/* Article grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 20, marginBottom: 30 }}>
-              {[
-                { cat: 'Dharma & Spirituality', title: 'What is Dharmic Certification and Why It Matters', excerpt: 'A new way for Hindu, Sikh, Buddhist and Jain businesses to build community trust and give back through every transaction.', date: 'May 2025', time: '4 min' },
-                { cat: 'Civic', title: 'Dharmic Voices in Canadian Democracy', excerpt: 'How the Hindu community can make its voice heard in federal, provincial and municipal elections across Canada.', date: 'April 2025', time: '5 min' },
-                { cat: 'Heritage & Culture', title: 'Preserving Vedic Traditions in Canada', excerpt: 'How Canadian Hindu families are keeping ancient traditions alive while raising the next generation in the West.', date: 'March 2025', time: '6 min' },
-                { cat: 'Youth', title: 'Hindu Identity and the Canadian-Born Generation', excerpt: 'Young Hindus born in Canada share their journey of connecting with their heritage while growing up in a multicultural society.', date: 'February 2025', time: '7 min' },
-                { cat: 'Community', title: 'Canadian Hindu Volunteers — Our Story', excerpt: 'How a small group of dedicated volunteers built a nationwide network serving the Hindu community across Canada.', date: 'January 2025', time: '5 min' },
-                { cat: 'Dharma & Spirituality', title: 'Mitra AI — Vedic Wisdom for the Modern Age', excerpt: 'Meet Mitra, your AI Vedic guide powered by the wisdom of 14 ancient scriptures — available 24/7 in English and Hindi.', date: 'December 2024', time: '3 min' },
-              ].map((article, i) => (
-                <div key={i} style={{
-                  background: 'var(--warm-white)', border: '1px solid var(--border)',
-                  borderRadius: 16, padding: '20px', cursor: 'pointer',
-                  boxShadow: '0 2px 10px rgba(92,34,0,0.06)',
-                  transition: 'all 0.2s',
+            {/* Input */}
+            <div style={{ padding: '16px 24px', borderTop: '1px solid rgba(201,146,42,0.15)', display: 'flex', gap: 12, alignItems: 'flex-end', background: 'white' }}>
+              <textarea value={input} onChange={e => setInput(e.target.value)}
+                onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage() } }}
+                placeholder={lang === 'hi' ? 'मित्र से कोई भी प्रश्न पूछें...' : 'Ask Mitra anything about dharma, life, Vedic wisdom...'}
+                rows={1} style={{
+                  flex: 1, background: 'transparent', border: 'none', outline: 'none',
+                  color: 'var(--text)', fontSize: '1rem', resize: 'none',
+                  lineHeight: 1.6, fontFamily: 'var(--font-body)', maxHeight: 100, overflowY: 'auto',
                 }}
-                  onMouseOver={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-3px)'; (e.currentTarget as HTMLDivElement).style.boxShadow = '0 8px 20px rgba(92,34,0,0.12)' }}
-                  onMouseOut={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)'; (e.currentTarget as HTMLDivElement).style.boxShadow = '0 2px 10px rgba(92,34,0,0.06)' }}>
-                  <div style={{ fontSize: '0.7rem', color: 'var(--saffron)', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase' as const, marginBottom: 8 }}>{article.cat}</div>
-                  <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', color: 'var(--darkest)', marginBottom: 8, lineHeight: 1.4 }}>{article.title}</h3>
-                  <p style={{ fontSize: '0.83rem', color: 'var(--text-sub)', lineHeight: 1.65, marginBottom: 14 }}>{article.excerpt}</p>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.72rem', color: 'var(--text-sub)' }}>
+                onInput={e => { const t = e.target as HTMLTextAreaElement; t.style.height = 'auto'; t.style.height = Math.min(t.scrollHeight, 100) + 'px' }}
+              />
+              <button onClick={() => sendMessage()} disabled={!input.trim() || loading} style={{
+                width: 48, height: 48, borderRadius: '50%',
+                background: input.trim() && !loading ? 'linear-gradient(135deg, #F0C060, #D4560A)' : '#D4B896',
+                border: 'none', cursor: input.trim() ? 'pointer' : 'not-allowed',
+                fontSize: '1.2rem', flexShrink: 0,
+                boxShadow: input.trim() ? '0 4px 16px rgba(212,86,10,0.4)' : 'none',
+              }}>🪷</button>
+            </div>
+          </div>
+
+          <p style={{ textAlign: 'center', color: 'var(--text-sub)', fontSize: '0.82rem', marginTop: 20, fontStyle: 'italic' }}>
+            Mitra shares Vedic knowledge for educational & spiritual guidance — not a substitute for professional advice
+          </p>
+        </div>
+      )}
+
+      {/* CERTIFY PAGE */}
+      {active === 'certify' && (
+        <div style={{ maxWidth: 1000, margin: '0 auto', padding: '60px 24px' }}>
+          <div style={{ textAlign: 'center', marginBottom: 56 }}>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4vw, 3.5rem)', color: 'var(--dark)', marginBottom: 12 }}>Dharmic Business Certification</h1>
+            <p style={{ fontSize: '1.1rem', color: 'var(--text-sub)', fontStyle: 'italic', maxWidth: 600, margin: '0 auto' }}>Official recognition for Hindu, Sikh, Buddhist & Jain business owners in Canada</p>
+          </div>
+          <div style={{ background: 'linear-gradient(135deg, #1C0A00, #3D1500)', borderRadius: 16, padding: '56px 48px', color: '#FAF3E0', marginBottom: 32 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48 }}>
+              <div>
+                <div style={{ fontFamily: 'var(--font-dev)', fontSize: '1rem', color: '#F0C060', marginBottom: 12 }}>धर्मो रक्षति रक्षितः</div>
+                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2.5rem', marginBottom: 20, lineHeight: 1.2 }}>$100 CAD / Year</h2>
+                <div style={{ marginBottom: 28 }}>
+                  {['Official Dharmic Certification badge', 'Verified Business Directory listing', 'Downloadable PDF certificate', 'QR-scannable Member Card (1 year)', 'Priority placement in searches', 'Community trust verification'].map((item, i) => (
+                    <div key={i} style={{ display: 'flex', gap: 12, marginBottom: 10, fontSize: '0.95rem', color: '#EDD9A3' }}>
+                      <span style={{ color: '#F0C060', flexShrink: 0 }}>✓</span> {item}
+                    </div>
+                  ))}
+                </div>
+                <a href={ZEFFY_LINKS.dharmicCertification} target="_blank" rel="noopener noreferrer" style={{
+                  display: 'inline-block', padding: '16px 36px',
+                  background: 'linear-gradient(135deg, #F0C060, #D4560A)',
+                  color: '#1C0A00', borderRadius: 4, fontFamily: 'var(--font-display)',
+                  fontSize: '1.05rem', textDecoration: 'none',
+                }}>Apply Now — $100/yr 🪷</a>
+              </div>
+              <div>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', color: '#F0C060', marginBottom: 24 }}>Revenue Split</div>
+                {[{ pct: '25%', label: 'Partner Organization', icon: '🛕' }, { pct: '25%', label: 'Dharmic Charity', icon: '🙏' }, { pct: '50%', label: 'Platform Operations', icon: '🪷' }].map((item, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20, padding: '16px', background: 'rgba(255,255,255,0.05)', borderRadius: 8, border: '1px solid rgba(240,192,96,0.15)' }}>
+                    <div style={{ fontSize: '1.5rem' }}>{item.icon}</div>
+                    <div style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', color: '#F0C060', minWidth: 70 }}>{item.pct}</div>
+                    <div style={{ fontSize: '0.95rem', color: '#EDD9A3' }}>{item.label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* CIVIC PAGE */}
+      {active === 'civic' && (
+        <div style={{ maxWidth: 1000, margin: '0 auto', padding: '60px 24px' }}>
+          <div style={{ textAlign: 'center', marginBottom: 56 }}>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4vw, 3.5rem)', color: 'var(--dark)', marginBottom: 12 }}>Civic Connect</h1>
+            <p style={{ fontSize: '1.1rem', color: 'var(--text-sub)', fontStyle: 'italic' }}>Dharmic voices in Canadian democracy — sorted by postal code</p>
+          </div>
+          <div style={{ background: '#EBF4FF', border: '1px solid #BEE3F8', borderRadius: 8, padding: '16px 24px', marginBottom: 32, fontSize: '0.95rem', color: '#2C5282' }}>
+            ⚖️ <strong>Non-Partisan:</strong> Mitra Civic Connect welcomes candidates of all parties equally. Canadian Hindu Volunteers does not endorse any candidate or party.
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
+            <div style={{ background: 'white', border: '2px solid #2C5282', borderRadius: 12, padding: '36px 32px' }}>
+              <div style={{ fontSize: '2.5rem', marginBottom: 16 }}>🏛️</div>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', color: 'var(--dark)', marginBottom: 12 }}>I Am a Candidate</h2>
+              <p style={{ color: 'var(--text-sub)', marginBottom: 24, lineHeight: 1.7 }}>Reach verified Dharmic voters in your riding. Listed until election day. Completely non-partisan.</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                <a href={ZEFFY_LINKS.featuredCandidate} target="_blank" rel="noopener noreferrer" style={{ display: 'block', padding: '12px 24px', background: '#2C5282', color: 'white', borderRadius: 4, textDecoration: 'none', fontFamily: 'var(--font-display)', textAlign: 'center' }}>Featured Listing — $50 →</a>
+                <a href={ZEFFY_LINKS.ridingAnnouncement} target="_blank" rel="noopener noreferrer" style={{ display: 'block', padding: '12px 24px', background: '#1A365D', color: 'white', borderRadius: 4, textDecoration: 'none', fontFamily: 'var(--font-display)', textAlign: 'center' }}>Riding-Wide Announcement — $100 →</a>
+              </div>
+            </div>
+            <div style={{ background: 'white', border: '2px solid var(--forest)', borderRadius: 12, padding: '36px 32px' }}>
+              <div style={{ fontSize: '2.5rem', marginBottom: 16 }}>🙋</div>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', color: 'var(--dark)', marginBottom: 12 }}>I Want to Volunteer</h2>
+              <p style={{ color: 'var(--text-sub)', marginBottom: 24, lineHeight: 1.7 }}>Find Dharmic candidates in your riding by postal code and support their campaign.</p>
+              <div style={{ background: '#FAF3E0', borderRadius: 8, padding: '16px', marginBottom: 16 }}>
+                <div style={{ fontSize: '0.88rem', color: 'var(--text-sub)', marginBottom: 10 }}>Enter your postal code:</div>
+                <div style={{ display: 'flex', gap: 10 }}>
+                  <input type="text" placeholder="e.g. L6Y 0A1" style={{ flex: 1, padding: '10px 14px', borderRadius: 4, border: '1px solid rgba(201,146,42,0.3)', fontSize: '0.95rem', fontFamily: 'var(--font-body)', outline: 'none' }} />
+                  <button style={{ padding: '10px 20px', background: 'var(--forest)', color: 'white', border: 'none', borderRadius: 4, cursor: 'pointer', fontSize: '0.9rem' }}>Search</button>
+                </div>
+              </div>
+              <p style={{ fontSize: '0.82rem', color: 'var(--text-sub)', fontStyle: 'italic' }}>
+                <a href={ZEFFY_LINKS.memberVerification} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--saffron)' }}>Verify your membership</a> to be notified when candidates register in your riding.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* JOIN PAGE */}
+      {active === 'join' && (
+        <div style={{ maxWidth: 900, margin: '0 auto', padding: '60px 24px' }}>
+          <div style={{ textAlign: 'center', marginBottom: 56 }}>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4vw, 3.5rem)', color: 'var(--dark)', marginBottom: 12 }}>Join the Community</h1>
+            <p style={{ fontSize: '1.1rem', color: 'var(--text-sub)', fontStyle: 'italic' }}>Verified membership for the Dharmic community across Canada</p>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
+            <div style={{ background: 'white', border: '2px solid rgba(201,146,42,0.3)', borderRadius: 12, padding: '40px 36px', textAlign: 'center', boxShadow: '0 4px 24px rgba(28,10,0,0.08)' }}>
+              <div style={{ fontSize: '3rem', marginBottom: 16 }}>🪪</div>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.6rem', color: 'var(--dark)', marginBottom: 8 }}>Verified Member</h2>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: '3rem', color: 'var(--saffron)', marginBottom: 4 }}>$1</div>
+              <div style={{ color: 'var(--text-sub)', fontSize: '0.88rem', marginBottom: 24 }}>One-time · Valid 1 year · 16+</div>
+              <div style={{ textAlign: 'left', marginBottom: 28 }}>
+                {['Identity-verified Member Card', 'Post on the Connect Board', 'Connect with members in your city', 'Access Civic Connect in your riding', 'Chat with Mitra AI'].map((item, i) => (
+                  <div key={i} style={{ display: 'flex', gap: 10, marginBottom: 8, fontSize: '0.92rem', color: 'var(--text-sub)' }}>
+                    <span style={{ color: 'var(--saffron)' }}>✓</span> {item}
+                  </div>
+                ))}
+              </div>
+              <a href={ZEFFY_LINKS.memberVerification} target="_blank" rel="noopener noreferrer" style={{ display: 'block', padding: '14px', background: 'linear-gradient(135deg, #D4560A, #8B2E00)', color: 'white', borderRadius: 4, textDecoration: 'none', fontFamily: 'var(--font-display)', fontSize: '1rem' }}>Verify My Identity — $1 🪷</a>
+            </div>
+            <div style={{ background: 'linear-gradient(135deg, #1C0A00, #3D1500)', border: '2px solid rgba(240,192,96,0.3)', borderRadius: 12, padding: '40px 36px', textAlign: 'center', color: '#FAF3E0' }}>
+              <div style={{ fontSize: '3rem', marginBottom: 16 }}>🏅</div>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.6rem', marginBottom: 8 }}>Dharmic Certified Business</h2>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: '3rem', color: '#F0C060', marginBottom: 4 }}>$100</div>
+              <div style={{ color: 'rgba(240,192,96,0.7)', fontSize: '0.88rem', marginBottom: 24 }}>Annual · Renews yearly</div>
+              <div style={{ textAlign: 'left', marginBottom: 28 }}>
+                {['Everything in Member Card', 'Official Dharmic badge', 'Business Directory listing', 'Downloadable PDF certificate', '25% to your referring org', '25% to a Dharmic charity'].map((item, i) => (
+                  <div key={i} style={{ display: 'flex', gap: 10, marginBottom: 8, fontSize: '0.92rem', color: 'rgba(250,243,224,0.8)' }}>
+                    <span style={{ color: '#F0C060' }}>✓</span> {item}
+                  </div>
+                ))}
+              </div>
+              <a href={ZEFFY_LINKS.dharmicCertification} target="_blank" rel="noopener noreferrer" style={{ display: 'block', padding: '14px', background: 'linear-gradient(135deg, #F0C060, #D4560A)', color: '#1C0A00', borderRadius: 4, textDecoration: 'none', fontFamily: 'var(--font-display)', fontSize: '1rem' }}>Get Certified — $100/yr 🏅</a>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* DIRECTORY PAGE */}
+      {active === 'directory' && (
+        <div style={{ maxWidth: 1000, margin: '0 auto', padding: '60px 24px', textAlign: 'center' }}>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '3rem', color: 'var(--dark)', marginBottom: 16 }}>Dharmic Business Directory</h1>
+          <p style={{ fontSize: '1.1rem', color: 'var(--text-sub)', fontStyle: 'italic', marginBottom: 40 }}>Verified Hindu, Sikh, Buddhist & Jain businesses across Canada</p>
+          <div style={{ background: 'white', borderRadius: 12, padding: '56px', boxShadow: '0 4px 24px rgba(28,10,0,0.08)', border: '1px solid rgba(201,146,42,0.2)' }}>
+            <div style={{ fontSize: '4rem', marginBottom: 20 }}>🏢</div>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.8rem', color: 'var(--dark)', marginBottom: 12 }}>Launching Soon</h2>
+            <p style={{ color: 'var(--text-sub)', maxWidth: 480, margin: '0 auto 32px', lineHeight: 1.8 }}>The directory launches with our first certified businesses. Get certified to be among the first listed.</p>
+            <button onClick={() => setActive('certify')} style={{ padding: '14px 36px', background: 'linear-gradient(135deg, #D4560A, #8B2E00)', color: 'white', border: 'none', borderRadius: 4, cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: '1rem' }}>Get Dharmic Certified →</button>
+          </div>
+        </div>
+      )}
+
+      {/* CONNECT BOARD */}
+      {active === 'connect' && (
+        <div style={{ maxWidth: 1000, margin: '0 auto', padding: '60px 24px' }}>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '3rem', color: 'var(--dark)', marginBottom: 12 }}>Connect Board</h1>
+            <p style={{ fontSize: '1.1rem', color: 'var(--text-sub)', fontStyle: 'italic' }}>Find Dharmic community members in your city · Free for verified members · Posts purge in 30 days</p>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 14, marginBottom: 40 }}>
+            {CONNECT_CATEGORIES.map((cat, i) => (
+              <div key={i} style={{ background: 'white', border: '1px solid rgba(201,146,42,0.2)', borderRadius: 10, padding: '20px 12px', textAlign: 'center', cursor: 'pointer', transition: 'all 0.2s', boxShadow: '0 2px 10px rgba(28,10,0,0.05)' }}
+                onMouseOver={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--saffron)'; (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-3px)' }}
+                onMouseOut={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(201,146,42,0.2)'; (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)' }}>
+                <div style={{ fontSize: '2rem', marginBottom: 8 }}>{cat.icon}</div>
+                <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text)' }}>{cat.label}</div>
+              </div>
+            ))}
+          </div>
+          <div style={{ background: 'white', borderRadius: 12, padding: '48px', textAlign: 'center', boxShadow: '0 4px 24px rgba(28,10,0,0.08)' }}>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.8rem', color: 'var(--dark)', marginBottom: 12 }}>Launching Soon</h2>
+            <p style={{ color: 'var(--text-sub)', maxWidth: 480, margin: '0 auto 28px', lineHeight: 1.8 }}>Verified members will post and browse city-based connection requests. Posts are free and auto-purge after 30 days.</p>
+            <a href={ZEFFY_LINKS.memberVerification} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', padding: '14px 32px', background: 'linear-gradient(135deg, #D4560A, #8B2E00)', color: 'white', borderRadius: 4, textDecoration: 'none', fontFamily: 'var(--font-display)' }}>Verify My Identity — $1 🪷</a>
+          </div>
+        </div>
+      )}
+
+      {/* BLOG PAGE */}
+      {active === 'blog' && (
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '60px 24px' }}>
+          <div style={{ textAlign: 'center', marginBottom: 56 }}>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4vw, 3.5rem)', color: 'var(--dark)', marginBottom: 12 }}>Articles & Community News</h1>
+            <p style={{ fontSize: '1.1rem', color: 'var(--text-sub)', fontStyle: 'italic' }}>Stories, insights and wisdom from the Canadian Hindu community</p>
+          </div>
+
+          {/* Featured */}
+          <div style={{
+            background: `linear-gradient(rgba(28,10,0,0.75), rgba(28,10,0,0.85)), url(https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Kedarnath_Temple.jpg/1280px-Kedarnath_Temple.jpg) center/cover`,
+            borderRadius: 12, padding: '56px 48px', color: '#FAF3E0', marginBottom: 40,
+          }}>
+            <div style={{ fontSize: '0.75rem', color: '#F0C060', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: 12 }}>📌 Featured · Announcements</div>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.6rem, 3vw, 2.8rem)', marginBottom: 16, maxWidth: 680, lineHeight: 1.2 }}>Welcome to the New canadianhindu.ca — Mitra 2.0 is Here</h2>
+            <p style={{ color: 'rgba(250,243,224,0.85)', lineHeight: 1.8, maxWidth: 620, marginBottom: 24, fontSize: '1.05rem' }}>
+              Canadian Hindu Volunteers is proud to launch Mitra 2.0 — a complete community platform for Hindus, Sikhs, Buddhists and Jains across Canada. Vedic AI, verified directory, civic engagement, and community connection — all in one place.
+            </p>
+            <div style={{ display: 'flex', gap: 20, fontSize: '0.85rem', color: 'rgba(240,192,96,0.8)' }}>
+              <span>✍️ Canadian Hindu Volunteers</span>
+              <span>·</span>
+              <span>📅 June 2025</span>
+              <span>·</span>
+              <span>3 min read</span>
+            </div>
+          </div>
+
+          {/* Article grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 24, marginBottom: 48 }}>
+            {[
+              { cat: 'Dharma & Spirituality', title: 'What is Dharmic Certification and Why It Matters for Canadian Businesses', date: 'May 2025', time: '4 min' },
+              { cat: 'Civic', title: 'Dharmic Voices in Canadian Democracy — Making Our Vote Count', date: 'April 2025', time: '5 min' },
+              { cat: 'Heritage & Culture', title: 'Preserving Vedic Traditions While Raising Children in Canada', date: 'March 2025', time: '6 min' },
+              { cat: 'Youth', title: 'Hindu Identity and the Canadian-Born Generation', date: 'February 2025', time: '7 min' },
+              { cat: 'Community', title: 'Canadian Hindu Volunteers — Our Story and Mission', date: 'January 2025', time: '5 min' },
+              { cat: 'Dharma & Spirituality', title: 'Mitra AI — 14 Vedic Scriptures Available 24/7 in English & Hindi', date: 'December 2024', time: '3 min' },
+            ].map((article, i) => (
+              <div key={i} style={{
+                background: 'white', borderRadius: 10, overflow: 'hidden',
+                boxShadow: '0 2px 16px rgba(28,10,0,0.07)', cursor: 'pointer',
+                transition: 'transform 0.2s, box-shadow 0.2s',
+                border: '1px solid rgba(201,146,42,0.1)',
+              }}
+                onMouseOver={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-4px)'; (e.currentTarget as HTMLDivElement).style.boxShadow = '0 12px 32px rgba(28,10,0,0.12)' }}
+                onMouseOut={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)'; (e.currentTarget as HTMLDivElement).style.boxShadow = '0 2px 16px rgba(28,10,0,0.07)' }}>
+                <div style={{ height: 6, background: i % 3 === 0 ? 'var(--saffron)' : i % 3 === 1 ? 'var(--gold)' : 'var(--maroon)' }} />
+                <div style={{ padding: '24px 22px' }}>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--saffron)', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase', marginBottom: 10 }}>{article.cat}</div>
+                  <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.05rem', color: 'var(--dark)', marginBottom: 14, lineHeight: 1.4 }}>{article.title}</h3>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem', color: 'var(--text-sub)' }}>
                     <span>📅 {article.date}</span>
                     <span>⏱ {article.time} read</span>
                   </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
+          </div>
 
-            {/* Contribute CTA */}
-            <div style={{ background: 'var(--warm-white)', border: '1px solid var(--border)', borderRadius: 20, padding: '28px', textAlign: 'center' as const }}>
-              <div style={{ fontSize: '1.5rem', marginBottom: 10 }}>✍️</div>
-              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', color: 'var(--darkest)', marginBottom: 8 }}>Have a Story to Share?</h3>
-              <p style={{ color: 'var(--text-sub)', fontSize: '0.88rem', maxWidth: 440, margin: '0 auto 18px', lineHeight: 1.7 }}>
-                We welcome articles from community members on dharma, heritage, civic engagement, youth, and Hindu life in Canada.
-              </p>
-              <a href="mailto:canadianhinduvolunteers@gmail.com?subject=Article Submission" style={{ ...s.featureBtn('#553C9A'), padding: '10px 24px', fontSize: '0.88rem' }}>
-                Submit an Article →
-              </a>
-            </div>
-          </div>
-        )}
-      </main>
-
-      {/* Footer */}
-      <footer style={{ background: 'var(--darkest)', color: '#F5D99A', padding: '24px 20px', marginTop: 'auto' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
-          <div>
-            <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', color: '#FFF8E7', marginBottom: 4 }}>Mitra · मित्र</div>
-            <div style={{ fontSize: '0.8rem', color: '#F5D99A' }}>A Canadian Hindu Volunteers initiative · canadianhindu.ca</div>
-          </div>
-          <div style={{ fontSize: '0.78rem', color: '#F5D99A', textAlign: 'center' }}>
-            <div style={{ fontFamily: 'var(--font-devanagari)', fontSize: '1rem', color: '#F5C842', marginBottom: 4 }}>धर्मो रक्षति रक्षितः</div>
-            For educational & spiritual guidance only · Not a substitute for professional advice
-          </div>
-          <div style={{ fontSize: '0.78rem', color: '#F5D99A' }}>
-            <div>canadianhinduvolunteers@gmail.com</div>
-            <div style={{ marginTop: 4 }}>© 2025 Canadian Hindu Volunteers</div>
+          <div style={{ background: '#FAF3E0', border: '1px solid rgba(201,146,42,0.3)', borderRadius: 12, padding: '40px', textAlign: 'center' }}>
+            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', color: 'var(--dark)', marginBottom: 10 }}>Share Your Story</h3>
+            <p style={{ color: 'var(--text-sub)', maxWidth: 440, margin: '0 auto 20px' }}>We welcome articles from community members on dharma, heritage, civic life, and Hindu life in Canada.</p>
+            <a href="mailto:canadianhinduvolunteers@gmail.com?subject=Article Submission" style={{ display: 'inline-block', padding: '12px 28px', background: 'var(--saffron)', color: 'white', borderRadius: 4, textDecoration: 'none', fontFamily: 'var(--font-display)' }}>Submit an Article →</a>
           </div>
         </div>
-      </footer>
+      )}
 
       <style>{`
         * { box-sizing: border-box; }
-        textarea::placeholder { color: var(--text-sub); opacity: 0.7; }
-        input::placeholder { color: var(--text-sub); opacity: 0.7; }
-        a { transition: opacity 0.2s; }
-        a:hover { opacity: 0.85; }
+        textarea::placeholder { color: var(--text-sub); opacity: 0.6; }
+        input::placeholder { color: var(--text-sub); opacity: 0.6; }
+        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+        @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes bounce { 0%,80%,100%{transform:scale(0.7);opacity:0.4} 40%{transform:scale(1.2);opacity:1} }
       `}</style>
     </div>
   )

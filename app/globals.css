@@ -1,21 +1,23 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --saffron: #C4500E;
-  --deep-saffron: #8B3A0A;
-  --darkest: #3D1200;
-  --gold: #D4AF37;
-  --gold-light: #F5C842;
-  --cream: #FDF6E3;
-  --cream-dark: #F0E6C8;
-  --warm-white: #FFFBF0;
-  --text-main: #2C1A0E;
-  --text-sub: #6B4226;
-  --border: #E8D5B0;
-  --header-bg: #3D1200;
-  --font-display: 'Playfair Display', Georgia, serif;
-  --font-body: 'Crimson Pro', Georgia, serif;
-  --font-devanagari: 'Noto Serif Devanagari', serif;
+  --saffron: #D4560A;
+  --saffron-bright: #F26419;
+  --saffron-deep: #8B2E00;
+  --gold: #C9922A;
+  --gold-light: #F0C060;
+  --cream: #FAF3E0;
+  --cream-warm: #F5E6C4;
+  --parchment: #EDD9A3;
+  --dark: #1C0A00;
+  --text: #2C1200;
+  --text-sub: #6B3A1F;
+  --maroon: #7B1616;
+  --lotus: #C4506A;
+  --forest: #1A4A2E;
+  --font-display: 'Yeseva One', Georgia, serif;
+  --font-body: 'Cormorant Garamond', Georgia, serif;
+  --font-dev: 'Noto Serif Devanagari', serif;
 }
 
 html { scroll-behavior: smooth; }
@@ -23,33 +25,28 @@ html { scroll-behavior: smooth; }
 body {
   font-family: var(--font-body);
   background: var(--cream);
-  color: var(--text-main);
-  min-height: 100vh;
-  font-size: 16px;
+  color: var(--text);
+  font-size: 18px;
   line-height: 1.7;
 }
 
-h1, h2, h3, h4 { font-family: var(--font-display); }
-
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--cream-dark); }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--cream-warm); }
 ::-webkit-scrollbar-thumb { background: var(--saffron); border-radius: 4px; }
 
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
 }
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
 }
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
 }
 @keyframes bounce {
   0%, 80%, 100% { transform: scale(0.7); opacity: 0.4; }
   40% { transform: scale(1.2); opacity: 1; }
 }
-.animate-fadeUp { animation: fadeUp 0.6s ease forwards; }
-.animate-fadeIn { animation: fadeIn 0.4s ease forwards; }
