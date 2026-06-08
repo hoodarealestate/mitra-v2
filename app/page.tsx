@@ -177,27 +177,49 @@ export default function Home() {
           <nav style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
             {NAV_ITEMS.map(item => (
               <button key={item.id} onClick={() => setActive(item.id)} style={{
-                padding: '8px 18px', borderRadius: 0, border: 'none', cursor: 'pointer',
+                padding: '8px 16px', borderRadius: 0, border: 'none', cursor: 'pointer',
                 background: active === item.id ? 'rgba(212,86,10,0.75)' : 'transparent',
-                color: active === item.id ? '#FAF3E0' : 'rgba(240,192,96,0.75)',
-                fontSize: '0.83rem', fontFamily: 'var(--font-body)', letterSpacing: '0.5px',
+                color: active === item.id ? '#FAF3E0' : '#F0C060',
+                fontSize: '0.92rem', fontFamily: 'var(--font-body)', letterSpacing: '0.5px',
                 borderBottom: active === item.id ? '2px solid #F0C060' : '2px solid transparent',
-                transition: 'all 0.2s',
+                transition: 'all 0.2s', fontWeight: active === item.id ? 600 : 400,
               }}
-                onMouseOver={e => { if (active !== item.id) { (e.currentTarget as any).style.color = '#F0C060'; (e.currentTarget as any).style.background = 'rgba(255,255,255,0.06)' }}}
-                onMouseOut={e => { if (active !== item.id) { (e.currentTarget as any).style.color = 'rgba(240,192,96,0.75)'; (e.currentTarget as any).style.background = 'transparent' }}}>
+                onMouseOver={e => { if (active !== item.id) { (e.currentTarget as any).style.color = '#FAF3E0'; (e.currentTarget as any).style.background = 'rgba(255,255,255,0.08)' }}}
+                onMouseOut={e => { if (active !== item.id) { (e.currentTarget as any).style.color = '#F0C060'; (e.currentTarget as any).style.background = 'transparent' }}}>
                 {item.label}
               </button>
             ))}
-            <div style={{ width: 1, height: 28, background: 'rgba(240,192,96,0.2)', margin: '0 10px' }} />
+            <div style={{ width: 1, height: 28, background: 'rgba(240,192,96,0.3)', margin: '0 8px' }} />
             {(['en','hi'] as const).map(l => (
               <button key={l} onClick={() => setLang(l)} style={{
                 padding: '6px 12px', border: 'none', cursor: 'pointer',
-                background: lang === l ? 'rgba(240,192,96,0.15)' : 'transparent',
-                color: lang === l ? '#F0C060' : 'rgba(240,192,96,0.4)',
-                fontSize: '0.78rem', fontWeight: 'bold', borderRadius: 4,
+                background: lang === l ? 'rgba(240,192,96,0.2)' : 'transparent',
+                color: lang === l ? '#F0C060' : 'rgba(240,192,96,0.5)',
+                fontSize: '0.82rem', fontWeight: 'bold', borderRadius: 4,
               }}>{l === 'en' ? 'EN' : 'हि'}</button>
             ))}
+            <div style={{ width: 1, height: 28, background: 'rgba(240,192,96,0.3)', margin: '0 8px' }} />
+            {/* Login / Register */}
+            <a href="/login" style={{
+              padding: '7px 16px', borderRadius: 4, border: '1px solid rgba(240,192,96,0.5)',
+              color: '#F0C060', fontSize: '0.88rem', fontFamily: 'var(--font-body)',
+              textDecoration: 'none', transition: 'all 0.2s', letterSpacing: '0.3px',
+            }}
+              onMouseOver={e => { (e.currentTarget as any).style.background = 'rgba(240,192,96,0.1)'; (e.currentTarget as any).style.borderColor = '#F0C060' }}
+              onMouseOut={e => { (e.currentTarget as any).style.background = 'transparent'; (e.currentTarget as any).style.borderColor = 'rgba(240,192,96,0.5)' }}>
+              Log In
+            </a>
+            <a href="/register" style={{
+              padding: '8px 18px', borderRadius: 4, border: 'none',
+              background: 'linear-gradient(135deg, #D4560A, #8B2E00)',
+              color: '#FAF3E0', fontSize: '0.88rem', fontFamily: 'var(--font-body)',
+              textDecoration: 'none', transition: 'all 0.2s', letterSpacing: '0.3px',
+              boxShadow: '0 2px 12px rgba(212,86,10,0.4)',
+            }}
+              onMouseOver={e => { (e.currentTarget as any).style.opacity = '0.9' }}
+              onMouseOut={e => { (e.currentTarget as any).style.opacity = '1' }}>
+              Join Free →
+            </a>
           </nav>
         </div>
         <div style={{ height: 2, background: 'linear-gradient(90deg, transparent 0%, #F0C060 20%, #D4560A 40%, #F0C060 60%, #D4560A 80%, transparent 100%)', animation: 'shimmerGold 4s linear infinite', backgroundSize: '200% 100%' }} />
@@ -302,18 +324,30 @@ export default function Home() {
                   onMouseOut={e => { (e.currentTarget as any).style.transform = 'translateY(0)'; (e.currentTarget as any).style.boxShadow = '0 8px 32px rgba(212,86,10,0.5)' }}>
                   Ask Mitra AI →
                 </button>
-                <button onClick={() => setActive('join')} style={{
+                <a href="/register" style={{
                   padding: '18px 44px',
                   background: 'transparent',
                   color: '#F0C060', border: '1.5px solid rgba(240,192,96,0.6)', borderRadius: 4, cursor: 'pointer',
                   fontSize: '1.05rem', fontFamily: 'var(--font-display)',
                   backdropFilter: 'blur(10px)',
-                  transition: 'all 0.2s',
+                  transition: 'all 0.2s', textDecoration: 'none', display: 'inline-block',
                 }}
                   onMouseOver={e => { (e.currentTarget as any).style.background = 'rgba(240,192,96,0.1)'; (e.currentTarget as any).style.borderColor = '#F0C060' }}
                   onMouseOut={e => { (e.currentTarget as any).style.background = 'transparent'; (e.currentTarget as any).style.borderColor = 'rgba(240,192,96,0.6)' }}>
                   Join for $1 CAD
-                </button>
+                </a>
+                <a href="/member" style={{
+                  padding: '18px 44px',
+                  background: 'rgba(255,255,255,0.08)',
+                  color: '#FAF3E0', border: '1.5px solid rgba(255,255,255,0.25)', borderRadius: 4,
+                  fontSize: '1.05rem', fontFamily: 'var(--font-display)',
+                  backdropFilter: 'blur(10px)',
+                  transition: 'all 0.2s', textDecoration: 'none', display: 'inline-block',
+                }}
+                  onMouseOver={e => { (e.currentTarget as any).style.background = 'rgba(255,255,255,0.14)' }}
+                  onMouseOut={e => { (e.currentTarget as any).style.background = 'rgba(255,255,255,0.08)' }}>
+                  🪪 My Member Card
+                </a>
               </div>
             </div>
 
