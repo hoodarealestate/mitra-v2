@@ -774,7 +774,7 @@ export default function Home() {
                     <div style={{ fontSize: '0.88rem', color: 'var(--text-sub)', marginBottom: 10 }}>Enter your postal code to find candidates:</div>
                     <div style={{ display: 'flex', gap: 10 }}>
                       <input type="text" placeholder="e.g. L6Y 0A1" style={{ flex: 1, padding: '11px 16px', borderRadius: 4, border: '1px solid rgba(201,146,42,0.3)', fontSize: '0.95rem', fontFamily: 'var(--font-body)', outline: 'none' }} />
-                      <button style={{ padding: '11px 22px', background: '#1A4A2E', color: 'white', border: 'none', borderRadius: 4, cursor: 'pointer', fontSize: '0.9rem', fontFamily: 'var(--font-display)', fontSize: '0.95rem' }}>Search</button>
+                      <button style={{ padding: '11px 22px', background: '#1A4A2E', color: 'white', border: 'none', borderRadius: 4, cursor: 'pointer', fontSize: '0.95rem', fontFamily: 'var(--font-display)' }}>Search</button>
                     </div>
                   </div>
                   <p style={{ fontSize: '0.82rem', color: 'var(--text-sub)', fontStyle: 'italic' }}>
