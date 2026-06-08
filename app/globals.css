@@ -1,8 +1,8 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --saffron: #D4560A;
-  --saffron-bright: #F26419;
+  --saffron: #C4500E;
+  --saffron-bright: #E8621A;
   --saffron-deep: #8B2E00;
   --gold: #C9922A;
   --gold-light: #F0C060;
@@ -10,7 +10,7 @@
   --cream-warm: #F5E6C4;
   --dark: #1C0A00;
   --text: #2C1200;
-  --text-sub: #6B3A1F;
+  --text-sub: #5C3010;
   --maroon: #7B1616;
   --font-display: 'Yeseva One', Georgia, serif;
   --font-body: 'Cormorant Garamond', Georgia, serif;
@@ -18,7 +18,18 @@
 }
 
 html { scroll-behavior: smooth; }
-body { font-family: var(--font-body); background: var(--cream); color: var(--text); font-size: 18px; line-height: 1.7; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--cream);
+  color: var(--text);
+  font-size: 20px;
+  line-height: 1.75;
+}
+
+h1, h2, h3 { font-family: var(--font-display); color: var(--dark); }
+p { font-size: 1.05rem; }
+
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: var(--cream-warm); }
 ::-webkit-scrollbar-thumb { background: var(--saffron); border-radius: 4px; }
@@ -30,11 +41,10 @@ body { font-family: var(--font-body); background: var(--cream); color: var(--tex
 @keyframes rotateMandalaRev { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
 @keyframes shimmerGold { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
 @keyframes bounce { 0%,80%,100% { transform: scale(0.7); opacity: 0.4; } 40% { transform: scale(1.2); opacity: 1; } }
-@keyframes slideInLeft { from { opacity: 0; transform: translateX(-60px); } to { opacity: 1; transform: translateX(0); } }
-@keyframes slideInRight { from { opacity: 0; transform: translateX(60px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes slideInLeft { from { opacity: 0; transform: translateX(-48px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes slideInRight { from { opacity: 0; transform: translateX(48px); } to { opacity: 1; transform: translateX(0); } }
 @keyframes kenBurns { 0% { transform: scale(1); } 100% { transform: scale(1.08); } }
-@keyframes particleFloat { 0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-120vh) translateX(30px) rotate(720deg); opacity: 0; } }
-@keyframes drawDot { 0% { transform: scale(0); } 100% { transform: scale(1); } }
-@keyframes glowPulse { 0%,100% { box-shadow: 0 0 20px rgba(240,192,96,0.3); } 50% { box-shadow: 0 0 50px rgba(240,192,96,0.7), 0 0 100px rgba(212,86,10,0.3); } }
+@keyframes particleFloat { 0% { transform: translateY(0) translateX(0); opacity: 0; } 10% { opacity: 0.8; } 90% { opacity: 0.8; } 100% { transform: translateY(-120vh) translateX(30px); opacity: 0; } }
+@keyframes glowPulse { 0%,100% { box-shadow: 0 0 20px rgba(240,192,96,0.35); } 50% { box-shadow: 0 0 48px rgba(240,192,96,0.75), 0 0 90px rgba(212,86,10,0.3); } }
 @keyframes countUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes borderDance { 0%,100% { border-color: rgba(240,192,96,0.4); } 50% { border-color: rgba(240,192,96,0.9); } }
+@keyframes borderDance { 0%,100% { border-color: rgba(240,192,96,0.5); } 50% { border-color: rgba(240,192,96,1); } }

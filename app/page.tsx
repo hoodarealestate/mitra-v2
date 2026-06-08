@@ -159,7 +159,7 @@ export default function Home() {
 
       {/* ═══ HEADER ═══ */}
       <header style={headerStyle}>
-        <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 76 }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 82 }}>
           <div onClick={() => setActive('home')} style={{ display: 'flex', alignItems: 'center', gap: 16, cursor: 'pointer' }}>
             <div style={{
               width: 54, height: 54, borderRadius: '50%',
@@ -170,7 +170,7 @@ export default function Home() {
               flexShrink: 0,
             }}>ॐ</div>
             <div>
-              <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.6rem', color: '#FAF3E0', lineHeight: 1.1 }}>Mitra · मित्र</div>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.75rem', color: '#FAF3E0', lineHeight: 1.1 }}>Mitra · मित्र</div>
               <div style={{ fontSize: '0.6rem', color: '#C9922A', letterSpacing: '2.5px', textTransform: 'uppercase' }}>Canadian Hindu Community · canadianhindu.ca</div>
             </div>
           </div>
@@ -241,8 +241,8 @@ export default function Home() {
               }} />
             ))}
             {/* Multi-layer overlay */}
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(14,4,0,0.4) 0%, rgba(28,10,0,0.55) 40%, rgba(28,10,0,0.88) 100%)' }} />
-            <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, transparent 40%, rgba(14,4,0,0.5) 100%)' }} />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(14,4,0,0.15) 0%, rgba(28,10,0,0.35) 40%, rgba(28,10,0,0.72) 100%)' }} />
+            <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, transparent 50%, rgba(14,4,0,0.3) 100%)' }} />
 
             {/* Animated particles */}
             <Particles />
@@ -272,7 +272,7 @@ export default function Home() {
               <div style={{ animation: 'fadeUp 1s 0.2s ease both' }}>
                 <h1 style={{
                   fontFamily: 'var(--font-display)',
-                  fontSize: 'clamp(3rem, 7vw, 6.5rem)',
+                  fontSize: 'clamp(3.5rem, 8vw, 8rem)',
                   color: '#FAF3E0', lineHeight: 1.05, marginBottom: 20,
                   textShadow: '0 4px 30px rgba(0,0,0,0.5)',
                 }}>
@@ -282,7 +282,7 @@ export default function Home() {
 
               <div style={{ animation: 'fadeUp 1s 0.5s ease both' }}>
                 <p style={{
-                  fontSize: 'clamp(1.1rem, 2.2vw, 1.6rem)',
+                  fontSize: 'clamp(1.3rem, 2.5vw, 2rem)',
                   color: 'rgba(250,243,224,0.88)',
                   maxWidth: 680, marginBottom: 32,
                   fontStyle: 'italic', lineHeight: 1.7,
@@ -372,7 +372,7 @@ export default function Home() {
           </div>
 
           {/* ANIMATED STATS */}
-          <div ref={statsRef} style={{ background: 'linear-gradient(135deg, #0E0400, #1C0A00, #0E0400)', padding: '60px 24px' }}>
+          <div ref={statsRef} style={{ background: 'linear-gradient(135deg, #3D1800, #5C2800, #3D1800)', padding: '70px 24px' }}>
             <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 0 }}>
               {[
                 { num: '659', suffix: '+', label: 'Community Members', sub: 'across Canada' },
@@ -387,24 +387,24 @@ export default function Home() {
                   opacity: countersVisible ? 1 : 0,
                 }}>
                   <div style={{
-                    fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 4vw, 4rem)',
+                    fontFamily: 'var(--font-display)', fontSize: 'clamp(3rem, 5vw, 5rem)',
                     background: 'linear-gradient(135deg, #F0C060, #D4560A)',
                     WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
                     backgroundClip: 'text', lineHeight: 1,
                   }}>{s.num}{s.suffix}</div>
-                  <div style={{ color: '#FAF3E0', fontSize: '1rem', fontWeight: 600, marginTop: 8, letterSpacing: '0.3px' }}>{s.label}</div>
-                  <div style={{ color: 'rgba(201,146,42,0.6)', fontSize: '0.82rem', marginTop: 4 }}>{s.sub}</div>
+                  <div style={{ color: '#FAF3E0', fontSize: '1.15rem', fontWeight: 600, marginTop: 10, letterSpacing: '0.3px' }}>{s.label}</div>
+                  <div style={{ color: 'rgba(240,192,96,0.8)', fontSize: '0.92rem', marginTop: 6 }}>{s.sub}</div>
                 </div>
               ))}
             </div>
           </div>
 
           {/* GALLERY SECTION */}
-          <div style={{ padding: '100px 24px 80px', background: 'var(--cream)' }}>
+          <div style={{ padding: '100px 24px 80px', background: '#FFFBF0' }}>
             <div style={{ maxWidth: 1280, margin: '0 auto' }}>
               <div style={{ textAlign: 'center', marginBottom: 60, animation: 'fadeUp 0.8s ease both' }}>
-                <div style={{ fontFamily: 'var(--font-dev)', fontSize: '1.2rem', color: 'var(--saffron)', letterSpacing: '2px', marginBottom: 8 }}>सनातन धर्म</div>
-                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.2rem, 4vw, 4rem)', color: 'var(--dark)', lineHeight: 1.15 }}>
+                <div style={{ fontFamily: 'var(--font-dev)', fontSize: '1.5rem', color: 'var(--saffron)', letterSpacing: '2px', marginBottom: 12 }}>सनातन धर्म</div>
+                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.8rem, 5vw, 5rem)', color: 'var(--dark)', lineHeight: 1.15 }}>
                   Ancient Wisdom.<br />
                   <span style={{ background: 'linear-gradient(135deg, #D4560A, #C9922A)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
                     Modern Community.
@@ -452,10 +452,10 @@ export default function Home() {
           </div>
 
           {/* FEATURES */}
-          <div style={{ background: 'linear-gradient(180deg, #F5E6C4 0%, #FAF3E0 100%)', padding: '90px 24px' }}>
+          <div style={{ background: 'linear-gradient(180deg, #FFFBF0 0%, #FAF3E0 100%)', padding: '100px 24px' }}>
             <div style={{ maxWidth: 1280, margin: '0 auto' }}>
               <div style={{ textAlign: 'center', marginBottom: 64 }}>
-                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 3.5vw, 3.5rem)', color: 'var(--dark)' }}>Everything Your Community Needs</h2>
+                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 4vw, 4.5rem)', color: 'var(--dark)' }}>Everything Your Community Needs</h2>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 28 }}>
                 {[
@@ -467,10 +467,10 @@ export default function Home() {
                   { icon: '🪪', title: 'Member Card', color: '#5C2200', id: 'join', desc: 'Verified Dharmic Member Card for just $1 CAD. QR-scannable, valid 1 year.', btn: 'Join for $1' },
                 ].map((f, i) => (
                   <div key={f.id} style={{
-                    background: 'white', borderRadius: 2,
-                    borderLeft: `4px solid ${f.color}`,
-                    padding: '36px 32px',
-                    boxShadow: '0 2px 24px rgba(28,10,0,0.07)',
+                    background: 'white', borderRadius: 8,
+                    borderLeft: `5px solid ${f.color}`,
+                    padding: '40px 36px',
+                    boxShadow: '0 4px 32px rgba(28,10,0,0.09)',
                     transition: 'transform 0.3s, box-shadow 0.3s',
                     animation: `fadeUp 0.6s ${i * 0.08}s ease both`,
                     cursor: 'pointer',
@@ -478,9 +478,9 @@ export default function Home() {
                     onClick={() => setActive(f.id)}
                     onMouseOver={e => { (e.currentTarget as any).style.transform = 'translateY(-8px) translateX(4px)'; (e.currentTarget as any).style.boxShadow = '0 20px 60px rgba(28,10,0,0.15)' }}
                     onMouseOut={e => { (e.currentTarget as any).style.transform = 'translateY(0) translateX(0)'; (e.currentTarget as any).style.boxShadow = '0 2px 24px rgba(28,10,0,0.07)' }}>
-                    <div style={{ fontSize: '3rem', marginBottom: 18 }}>{f.icon}</div>
-                    <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', color: 'var(--dark)', marginBottom: 12 }}>{f.title}</h3>
-                    <p style={{ fontSize: '0.95rem', color: 'var(--text-sub)', lineHeight: 1.75, marginBottom: 24 }}>{f.desc}</p>
+                    <div style={{ fontSize: '3.5rem', marginBottom: 20 }}>{f.icon}</div>
+                    <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.6rem', color: 'var(--dark)', marginBottom: 12 }}>{f.title}</h3>
+                    <p style={{ fontSize: '1.05rem', color: 'var(--text-sub)', lineHeight: 1.75, marginBottom: 24 }}>{f.desc}</p>
                     <span style={{ color: f.color, fontFamily: 'var(--font-display)', fontSize: '0.9rem', letterSpacing: '0.3px' }}>{f.btn} →</span>
                   </div>
                 ))}
@@ -498,7 +498,7 @@ export default function Home() {
               <Particles />
               <div style={{ maxWidth: 1100, margin: '0 auto', position: 'relative', textAlign: 'center', color: '#FAF3E0' }}>
                 <div style={{ fontFamily: 'var(--font-dev)', fontSize: '1.3rem', color: '#F0C060', marginBottom: 14, letterSpacing: '1px' }}>धर्मो रक्षति रक्षितः</div>
-                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.2rem, 4.5vw, 4rem)', marginBottom: 16, lineHeight: 1.15 }}>
+                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.8rem, 5vw, 5rem)', marginBottom: 16, lineHeight: 1.15 }}>
                   Every $100 Certification<br />Gives Back to the Community
                 </h2>
                 <p style={{ fontSize: '1.15rem', color: 'rgba(250,243,224,0.75)', marginBottom: 72, fontStyle: 'italic', maxWidth: 600, margin: '0 auto 72px' }}>
@@ -543,7 +543,7 @@ export default function Home() {
           </div>
 
           {/* FOOTER */}
-          <footer style={{ background: '#0E0400', borderTop: '1px solid rgba(240,192,96,0.1)', padding: '64px 24px 40px' }}>
+          <footer style={{ background: '#1C0A00', borderTop: '1px solid rgba(240,192,96,0.1)', padding: '64px 24px 40px' }}>
             <div style={{ maxWidth: 1280, margin: '0 auto' }}>
               <div style={{ display: 'grid', gridTemplateColumns: '2.5fr 1fr 1fr 1fr', gap: 48, marginBottom: 48 }}>
                 <div>
@@ -738,7 +738,7 @@ export default function Home() {
               <div style={{ background: 'white', borderRadius: 12, padding: '56px', textAlign: 'center', boxShadow: '0 4px 40px rgba(28,10,0,0.08)' }}>
                 <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', color: 'var(--dark)', marginBottom: 12 }}>Launching Soon</h2>
                 <p style={{ color: 'var(--text-sub)', maxWidth: 480, margin: '0 auto 28px', lineHeight: 1.8 }}>Verified members will post city-based connection requests. Posts auto-purge after 30 days.</p>
-                <a href={ZEFFY_LINKS.memberVerification} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', padding: '14px 36px', background: 'linear-gradient(135deg, #D4560A, #8B2E00)', color: 'white', borderRadius: 4, textDecoration: 'none', fontFamily: 'var(--font-display)' }}>Verify My Identity — $1 🪷</a>
+                <a href={ZEFFY_LINKS.memberVerification} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', padding: '14px 36px', background: 'linear-gradient(135deg, #D4560A, #8B2E00)', color: 'white', borderRadius: 4, textDecoration: 'none', fontFamily: 'var(--font-display)', fontSize: '0.95rem' }}>Verify My Identity — $1 🪷</a>
               </div>
             </>
           )}
@@ -754,7 +754,7 @@ export default function Home() {
                   { emoji: '🏛️', title: 'I Am a Candidate', desc: 'Reach verified Dharmic voters in your riding. Listed until election day. All parties welcome.', links: [{ label: 'Featured Listing — $200', href: ZEFFY_LINKS.featuredCandidate, bg: '#2C5282' }, { label: 'Riding-Wide Announcement — $100', href: ZEFFY_LINKS.ridingAnnouncement, bg: '#1A365D' }] },
                 ].map((card, i) => (
                   <div key={i} style={{ background: 'white', border: '2px solid #2C5282', borderRadius: 12, padding: '40px 36px', animation: 'slideInLeft 0.5s ease both' }}>
-                    <div style={{ fontSize: '3rem', marginBottom: 18 }}>{card.emoji}</div>
+                    <div style={{ fontSize: '3.5rem', marginBottom: 20 }}>{card.emoji}</div>
                     <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.6rem', color: 'var(--dark)', marginBottom: 14 }}>{card.title}</h2>
                     <p style={{ color: 'var(--text-sub)', marginBottom: 28, lineHeight: 1.75 }}>{card.desc}</p>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -767,14 +767,14 @@ export default function Home() {
                   </div>
                 ))}
                 <div style={{ background: 'white', border: '2px solid #1A4A2E', borderRadius: 12, padding: '40px 36px', animation: 'slideInRight 0.5s ease both' }}>
-                  <div style={{ fontSize: '3rem', marginBottom: 18 }}>🙋</div>
+                  <div style={{ fontSize: '3.5rem', marginBottom: 20 }}>🙋</div>
                   <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.6rem', color: 'var(--dark)', marginBottom: 14 }}>I Want to Volunteer</h2>
                   <p style={{ color: 'var(--text-sub)', marginBottom: 24, lineHeight: 1.75 }}>Find Dharmic candidates in your riding and offer your support.</p>
                   <div style={{ background: '#FAF3E0', borderRadius: 8, padding: '18px', marginBottom: 18 }}>
                     <div style={{ fontSize: '0.88rem', color: 'var(--text-sub)', marginBottom: 10 }}>Enter your postal code to find candidates:</div>
                     <div style={{ display: 'flex', gap: 10 }}>
                       <input type="text" placeholder="e.g. L6Y 0A1" style={{ flex: 1, padding: '11px 16px', borderRadius: 4, border: '1px solid rgba(201,146,42,0.3)', fontSize: '0.95rem', fontFamily: 'var(--font-body)', outline: 'none' }} />
-                      <button style={{ padding: '11px 22px', background: '#1A4A2E', color: 'white', border: 'none', borderRadius: 4, cursor: 'pointer', fontSize: '0.9rem', fontFamily: 'var(--font-display)' }}>Search</button>
+                      <button style={{ padding: '11px 22px', background: '#1A4A2E', color: 'white', border: 'none', borderRadius: 4, cursor: 'pointer', fontSize: '0.9rem', fontFamily: 'var(--font-display)', fontSize: '0.95rem' }}>Search</button>
                     </div>
                   </div>
                   <p style={{ fontSize: '0.82rem', color: 'var(--text-sub)', fontStyle: 'italic' }}>
